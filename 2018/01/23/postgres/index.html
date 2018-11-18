@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="postgres,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="postgres安装 centos自带postgres，通过yum list | grep postgresql查看，安装最新版的postgres,安装yum源:yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm  安装Po">
+<meta name="keywords" content="postgres">
+<meta property="og:type" content="article">
+<meta property="og:title" content="postgres备份">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/postgres/index.html">
+<meta property="og:site_name" content="asD">
+<meta property="og:description" content="postgres安装 centos自带postgres，通过yum list | grep postgresql查看，安装最新版的postgres,安装yum源:yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm  安装Po">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-03T12:42:49.949Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="postgres备份">
+<meta name="twitter:description" content="postgres安装 centos自带postgres，通过yum list | grep postgresql查看，安装最新版的postgres,安装yum源:yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm  安装Po">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/23/postgres/">
+
+
+
+
+
+  <title>postgres备份 | asD</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">asD</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/postgres/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="asD">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">postgres备份</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-23T09:32:13+08:00">
+                2018-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="postgres安装"><a href="#postgres安装" class="headerlink" title="postgres安装"></a>postgres安装</h3><ul>
+<li><p>centos自带postgres，通过<code>yum list | grep postgresql</code>查看，安装最新版的postgres,安装yum源:<code>yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm</code></p>
+</li>
+<li><p>安装PostgreSQL： <code>yum install postgresql96-server postgresql96-contrib</code></p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p>可执行文件在 <code>/usr/pgsql-9.6/bin/</code>添加到环境变量， 数据和配置文件在 <code>/var/lib/pgsql/9.6/data/</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> POSTGRES_HOME=/usr/pgsql-9.6</span><br><span class="line"><span class="built_in">export</span> PGDATA=/var/lib/pgsql/9.6/data/</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$POSTGRES_HOME</span>/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TZ=<span class="string">'Asia/Shanghai'</span>; <span class="built_in">export</span> TZ</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化数据库, 在数据文件目录/var/lib/pgsql/9.6/data/ 下执行 </p>
+<ul>
+<li><code>su - postgres</code></li>
+<li><code>initdb  ./</code></li>
+</ul>
+</li>
+<li><p>支持密码登录修改相关文件：</p>
+<ul>
+<li><code>vi /var/lib/pgsql/9.6/data/pg_hba.conf</code>添加<code>host    all             all              0.0.0.0 0.0.0.0          md5</code></li>
+<li>开启远程访问，<code>vi postgresql.conf</code>修改 <code>listen_addresses=&#39;*&#39;</code></li>
+<li>重启postgres，<code>su postgres -c &#39;pg_ctl restart&#39;</code>，如果没有设置<code>$PGDATA</code>环境变量，执行该命令需要指定数据库目录<code>-D /data</code></li>
+</ul>
+</li>
+<li>登录，创建用户<ul>
+<li>执行<code>su  postgres</code>，输入<code>psql</code>进入postgres命令行</li>
+<li>执行<code>ALTER USER postgres WITH PASSWORD &#39;123456&#39;</code> 设置postgres用户的密码</li>
+<li>查看角色<code>\du</code>，创建用户并分配权限<code>create user test_user password &#39;123456&#39; Superuser CreateDB;</code> 删除用户<code>drop user test_user;</code></li>
+<li>退出<code>\q</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="postgres备份"><a href="#postgres备份" class="headerlink" title="postgres备份"></a>postgres备份</h3><ul>
+<li>SQL转储</li>
+<li>文件系统级别备份</li>
+<li>流复制</li>
+<li>在线增量备份与任意时间点恢复</li>
+</ul>
+<h4 id="一、SQL转储"><a href="#一、SQL转储" class="headerlink" title="一、SQL转储"></a>一、<a href="http://www.postgres.cn/docs/9.6/backup-dump.html#BACKUP-DUMP-ALL" target="_blank" rel="noopener">SQL转储</a></h4><p>SQL 转储方法的思想是创建一个由SQL命令组成的文件，当把这个文件回馈给服务器时，服务器将利用其中的SQL命令重建与转储时状态一样的数据库。pg_dump创建的备份在内部是一致的， 也就是说，转储表现了pg_dump开始运行时刻的数据库快照，且在pg_dump运行过程中发生的更新将不会被转储。pg_dump工作的时候并不阻塞其他的对数据库的操作。 （但是会阻塞那些需要排它锁的操作，比如大部分形式的ALTER TABLE）</p>
+<ul>
+<li>导出数据库数据 <code>pg_dump -U postgres -f /home/pg1.sql pg</code></li>
+<li>恢复数据 <code>psql -U postgres -f /home/pg1.sql pg</code></li>
+<li>pg_dump 表备份 <code>pg_dump databasename –t tablename1 –t tablename2 &gt;filename</code></li>
+<li>pg_dumpall备份所有数据库及角色 <code>pg_dumpall &gt; /home/pg_all.dmp</code>， 恢复 <code>psql –f /home/pg_all.dmp postgres</code></li>
+<li>备份压缩(处理大型数据库)<ul>
+<li>备份 <code>pg_dump dbname | gzip &gt; filename.gz</code></li>
+<li>恢复 <code>gunzip -c filename.gz | psql dbname</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="二、文件系统级别备份"><a href="#二、文件系统级别备份" class="headerlink" title="二、文件系统级别备份"></a>二、<a href="http://www.postgres.cn/docs/9.6/backup-file.html" target="_blank" rel="noopener">文件系统级别备份</a></h4><ul>
+<li><p>连续归档基础备份<a href="http://www.postgres.cn/docs/9.6/app-pgbasebackup.html" target="_blank" rel="noopener">pg_basebackup</a>，被用于获得一个正在运行的PostgreSQL数据库集簇的基础备份，备份通过一个常规PostgreSQL连接制作，并且使用复制协议。获得这些备份不会影响连接到该数据库的其他客户端,</p>
+</li>
+<li><p>直接复制PostgreSQL用于存储数据库中数据的文件,要求主库关闭。<br><code>tar -cf backup.tar /usr/local/pgsql/data</code></p>
+</li>
+<li><p>创建一个数据目录的”一致快照”，创建一个包含数据库的卷的”冻结快照”，然后从该快照复制整个数据目录（如上，不能是部分复制）到备份设备，最后释放冻结快照。即使在数据库服务器运行时，这种方式也有效。但是，以这种方式创建的备份保存的文件看起来就像数据库没有被正确关闭时的状态。因此，当你从备份数据上启动数据库服务器时，它会认为上一次的服务器实例崩溃了并尝试重放WAL日志。这不是问题，只是需要注意（当然WAL文件必须要包括在备份中）。你可以在拍摄快照之前执行一次CHECKPOINT以便节省恢复时间。</p>
+</li>
+</ul>
+<ul>
+<li>使用rsync来执行一次文件系统备份。其做法是先在数据库服务器运行时执行rsync，然后关闭数据库服务器足够长时间来做一次rsync –checksum （–checksum是必需的，因为rsync的文件修改 时间粒度只能精确到秒）。</li>
+</ul>
+<h4 id="三、流复制"><a href="#三、流复制" class="headerlink" title="三、流复制"></a>三、<a href="http://www.postgres.cn/docs/9.6/warm-standby.html#STREAMING-REPLICATION" target="_blank" rel="noopener">流复制</a></h4><p>流复制允许一台后备服务器比使用基于文件的日志传送更能保持为最新的状态。 后备服务器连接到主服务器， 主服务器则在 WAL(write ahead log) 记录产生时即将它们以流式传送给后备服务器而不必等到 WAL文件被填充。在这种情况下主服务器上提交一个事务与该变化在后备服务器上变得可见之间存在短暂的延迟。 不过这种延迟比基于文件的日志传送方式中要小得多， 在后备服务器的能力足以跟得上负载的前提下延迟通常低于一秒。</p>
+<p>默认情况下流复制是异步的</p>
+<blockquote>
+<p>主库配置</p>
+</blockquote>
+<ul>
+<li><p>创建复制用户：  <code>create user rep replication password &#39;123456&#39;;</code></p>
+</li>
+<li><p>配置pg_hba.conf：  <code>host   replication    rep   10.0.12.5/8   md5</code></p>
+</li>
+<li><p>配置postgresql.conf： </p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wal_level = replica</span><br><span class="line">hot_standby = on</span><br><span class="line">max_wal_senders = 2            <span class="comment">#流复制最大连接数</span></span><br><span class="line">wal_keep_segments = 16        <span class="comment">#xlog段的大小</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从库配置</p>
+</blockquote>
+<ul>
+<li><p><a href="http://www.postgres.cn/docs/9.6/app-pgbasebackup.html" target="_blank" rel="noopener">pg_basebackup基础备份</a>： <code>pg_basebackup -D $PGDATA -Fp -Xs -v -P -h 10.0.12.56 -p 5432 -U rep</code></p>
+</li>
+<li><p>配置recovery.conf</p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/pgsql-9.6/share/recovery.conf.sample  <span class="variable">$PGDATA</span>/recovery.conf</span><br><span class="line">vim <span class="variable">$PGDATA</span>/recovery.conf</span><br><span class="line">standby_mode = on</span><br><span class="line">primary_conninfo = <span class="string">'host=10.0.12.56 port=5432 user=rep password=123456'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动postgres： <code>pg_ctl start</code></li>
+</ul>
+<blockquote>
+<p>测试 流复制</p>
+</blockquote>
+<p>查看相关进程</p>
+<ul>
+<li>主库查找进程<code>ps -ef |grep postgres</code>，其中包含 <code>postgres: wal sender process...</code></li>
+<li>从库查找进程<code>ps -ef |grep postgres</code>，其中包含 <code>postgres: wal receiver process...</code></li>
+</ul>
+<p>查看记录点</p>
+<ul>
+<li>返回主库记录点、备库记录点：<code>postgres=# select txid_current_snapshot();</code> 主库每增加一条写入，记录点的值就会加1</li>
+</ul>
+<p>查看主备库同步状态</p>
+<ul>
+<li><p><code>postgres=# select * from pg_stat_replication;</code>  字段state显示的同步状态有：startup（连接中）、catchup（同步中）、streaming（同步）；字段sync_state显示的模式有：async（异步）、sync（同步）、potential（虽然现在是异步模式，但是有可能升级到同步模式）</p>
+</li>
+<li><p>此时在主库对数据的操作将会同步至备库，备库处于只读模式。<a href="http://blog.csdn.net/yanggd1987/article/details/51160154" target="_blank" rel="noopener">参考主从切换</a>，将备库升级为主库。</p>
+</li>
+</ul>
+<h4 id="四、在线增量备份与任意时间点恢复"><a href="#四、在线增量备份与任意时间点恢复" class="headerlink" title="四、在线增量备份与任意时间点恢复"></a>四、<a href="http://www.postgres.cn/docs/9.6/continuous-archiving.html" target="_blank" rel="noopener">在线增量备份与任意时间点恢复</a></h4><p>在任何时间，PostgreSQL在数据集簇目录的pg_xlog/子目录下都保持有一个预写式日志（WAL）。这个日志存在的目的是为了保证崩溃后的安全：如果系统崩溃，可以”重放”从最后一次检查点以来的日志项来恢复数据库的一致性。该日志的存在也使得第三种备份数据库的策略变得可能：我们可以把一个文件系统级别的备份和WAL文件的备份结合起来。当需要恢复时，我们先恢复文件系统备份，然后从备份的WAL文件中重放来把系统带到一个当前状态。这种方法比之前的方法管理起来要更复杂，但是可以实现数据任意时间点恢复功能。</p>
+<blockquote>
+<p>主库设置(基于流复制中主库的配置)</p>
+<ul>
+<li>配置postgresql.conf：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#开启归档模式</span><br><span class="line">archive_mode = on</span><br><span class="line">archive_command = &apos;ssh 10.0.12.5 test ! -f /data/postgres/pg_archive/%f &amp;&amp; scp %p  10.0.12.5:/data/postgres/pg_archive/%f&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>其中archive_command是归档命令，将归档文件传送至 10.0.12.5备份服务器的/data/postgres/pg_archive目录下</p>
+<p>执行该命令前要保证 主备库服务器的免密登录, postgres用户目录在<code>/var/lib/pgsql</code>，切换postgres用户，执行<code>ssh-keygen -t rsa</code>，将生成的公钥<code>/var/lib/pgsql/.ssh/id_rsa.pub</code>添加到免密登录主机对应的<code>/var/lib/pgsql/.ssh/authorized_keys</code>文件中，注意公钥中的主机名需要在免密登录的主机上配置dns或直接改为ip地址。</p>
+<p>重启主库<code>pg_ctl restart</code></p>
+<blockquote>
+<p>从库设置</p>
+<ul>
+<li>创建存储归档文件的目录： <code>mkdir -p /data/postgres/pg_archive</code>，设置文件权限<code>chown postgres:postgres /data/postgres/pg_archive</code></li>
+<li>创建主库的基础备份目录 <code>mkdir -p /data/postgres/pg_basebackup</code>，执行<code>pg_basebackup -D /data/postgres/pg_basebackup -Fp -Xs -v -P -h 10.0.12.56 -p 5432 -U rep</code>将主库基础备份至该目录，然后需要修改基础备份中的postgresql.conf，关闭归档模式，注释掉<code>archive_mode</code>和<code>archive_command</code></li>
+</ul>
+</blockquote>
+<ul>
+<li>配置恢复文件，<code>restore_command</code>将归档日志复制过来，<code>recovery_target_time</code>是恢复到的时间点,将<code>$PGDATA</code>即<code>/var/lib/pgsql/9.6/data</code>链接到基础备份目录<code>/data/postgres/pg_basebackup</code>，设置权限<code>chmod 0700 $PGDATA</code>，启动postgres，<code>pg_ctl start</code>，即可恢复到指定时间点。<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/pgsql-9.6/share/recovery.conf.sample  /data/postgres/pg_basebackuprecovery.conf</span><br><span class="line"></span><br><span class="line">vim recovery.conf</span><br><span class="line">restore_command = <span class="string">'cp /data/postgres/pg_basebackup/%f %p'</span></span><br><span class="line">recovery_target_time = <span class="string">'2017-11-14 18:31:00'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="http://www.postgres.cn/docs/9.6/backup.html" target="_blank" rel="noopener">http://www.postgres.cn/docs/9.6/backup.html</a></p>
+<p><a href="https://yq.aliyun.com/articles/59355#" target="_blank" rel="noopener">https://yq.aliyun.com/articles/59355#</a></p>
+<p><a href="http://blog.csdn.net/yanggd1987/article/details/51209344" target="_blank" rel="noopener">http://blog.csdn.net/yanggd1987/article/details/51209344</a></p>
+<p><a href="https://www.2cto.com/database/201708/670383.html" target="_blank" rel="noopener">https://www.2cto.com/database/201708/670383.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/postgres/" rel="tag"># postgres</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/18/caslogin/" rel="next" title="CAS单点登录">
+                <i class="fa fa-chevron-left"></i> CAS单点登录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/18/Kubernetes/" rel="prev" title="Kubernetes">
+                Kubernetes <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDc2NC8xNzI5MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Johnny">
+            
+              <p class="site-author-name" itemprop="name">Johnny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#postgres安装"><span class="nav-number">1.</span> <span class="nav-text">postgres安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#postgres备份"><span class="nav-number">2.</span> <span class="nav-text">postgres备份</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、SQL转储"><span class="nav-number">2.1.</span> <span class="nav-text">一、SQL转储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、文件系统级别备份"><span class="nav-number">2.2.</span> <span class="nav-text">二、文件系统级别备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、流复制"><span class="nav-number">2.3.</span> <span class="nav-text">三、流复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、在线增量备份与任意时间点恢复"><span class="nav-number">2.4.</span> <span class="nav-text">四、在线增量备份与任意时间点恢复</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料："><span class="nav-number">3.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style="display:none">
+    本站总访问量 <i class="fa fa-eye" id="busuanzi_value_site_pv"></i>
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style="display:none">
+    本站访客数 <i class="fa fa-user" id="busuanzi_value_site_uv"></i>
+</span>
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

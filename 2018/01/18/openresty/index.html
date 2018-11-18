@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="openresty,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="OpenResty® 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。 1、OpenResty安装 centos  安装">
+<meta name="keywords" content="openresty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenResty">
+<meta property="og:url" content="http://yoursite.com/2018/01/18/openresty/index.html">
+<meta property="og:site_name" content="asD">
+<meta property="og:description" content="OpenResty® 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。 1、OpenResty安装 centos  安装">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-03T12:39:43.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenResty">
+<meta name="twitter:description" content="OpenResty® 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。 1、OpenResty安装 centos  安装">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/18/openresty/">
+
+
+
+
+
+  <title>OpenResty | asD</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">asD</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/18/openresty/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="asD">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OpenResty</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T09:32:13+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/容器/" itemprop="url" rel="index">
+                    <span itemprop="name">容器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OpenResty® 是一个基于 Nginx 与 Lua 的高性能 Web 平台，其内部集成了大量精良的 Lua 库、第三方模块以及大多数的依赖项。用于方便地搭建能够处理超高并发、扩展性极高的动态 Web 应用、Web 服务和动态网关。</p>
+<h3 id="1、OpenResty安装"><a href="#1、OpenResty安装" class="headerlink" title="1、OpenResty安装"></a>1、OpenResty安装</h3><ul>
+<li>centos  安装<a id="more"></a>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### yum安装</span></span><br><span class="line">yum -y install readline-devel pcre-devel openssl-devel</span><br><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo</span><br><span class="line">sudo yum install -y openresty</span><br><span class="line"></span><br><span class="line"><span class="comment">### 源码编译</span></span><br><span class="line"><span class="comment">#  172.24.138.8 </span></span><br><span class="line">yum install -y gcc gcc-c++ pcre-devel openssl openssl-devel</span><br><span class="line"><span class="built_in">cd</span> /data</span><br><span class="line">curl -O http://mirrors.d.com/software/openresty/1.13.6/openresty-1.13.6.1.tar.gz</span><br><span class="line">tar -zxvf openresty-1.13.6.1.tar.gz</span><br><span class="line"><span class="built_in">cd</span> openresty-1.13.6.1</span><br><span class="line"><span class="comment">#./configure </span></span><br><span class="line"><span class="comment"># 指定libressl  tls1.3  http2</span></span><br><span class="line">./configure  --with-openssl=/usr/<span class="built_in">local</span>/libressl-2.6.4 --with-openssl-opt=<span class="built_in">enable</span>-tls1_3 --with-http_v2_module</span><br><span class="line">make </span><br><span class="line">sudo  make install </span><br><span class="line"></span><br><span class="line"><span class="comment">#默认安装在/usr/local/openresty目录下</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将conf  和  log目录移到/data/openresty下</span></span><br><span class="line">mkdir -p /data/openresty</span><br><span class="line">cp -R /usr/<span class="built_in">local</span>/openresty/nginx/conf  /data/openresty</span><br><span class="line">rm -rf /usr/<span class="built_in">local</span>/openresty/nginx/conf</span><br><span class="line">ln -s /data/openresty/conf /usr/<span class="built_in">local</span>/openresty/nginx/conf</span><br><span class="line"></span><br><span class="line">mkdir -p /data/openresty/logs</span><br><span class="line">rm -rf /usr/<span class="built_in">local</span>/openresty/nginx/logs</span><br><span class="line">ln -s /data/openresty/logs /usr/<span class="built_in">local</span>/openresty/nginx/logs</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动</span></span><br><span class="line">/usr/<span class="built_in">local</span>/openresty/nginx/sbin/nginx</span><br><span class="line"><span class="comment">#检查配置是否正确</span></span><br><span class="line"><span class="comment"># /usr/local/openrestry/nginx/sbin/nginx  -t</span></span><br><span class="line"><span class="comment">#重新加载配置文件</span></span><br><span class="line"><span class="comment"># /usr/local/openrestry/nginx/sbin/nginx  -s reload</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2、openresty配置"><a href="#2、openresty配置" class="headerlink" title="2、openresty配置"></a>2、openresty配置</h3><h4 id="nginx匹配规则"><a href="#nginx匹配规则" class="headerlink" title="nginx匹配规则"></a>nginx匹配规则</h4> <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">=       <span class="comment"># 精确匹配</span></span><br><span class="line">~       <span class="comment"># 正则匹配  区分大小写</span></span><br><span class="line">~*      <span class="comment"># 正则匹配 不区分大小写</span></span><br><span class="line">^~      <span class="comment"># 普通字符匹配，</span></span><br><span class="line"></span><br><span class="line">location  = / &#123;</span><br><span class="line">  <span class="comment"># 只匹配"/".</span></span><br><span class="line">  [ configuration A ] </span><br><span class="line">&#125;</span><br><span class="line">location  / &#123;</span><br><span class="line">  <span class="comment"># 匹配任何请求，因为所有请求都是以"/"开始</span></span><br><span class="line">  <span class="comment"># 但是更长字符匹配或者正则表达式匹配会优先匹配</span></span><br><span class="line">  [ configuration B ] </span><br><span class="line">&#125;</span><br><span class="line">location ^~ /images/ &#123;</span><br><span class="line">  <span class="comment"># 匹配任何以 /images/ 开始的请求，并停止匹配 其它location</span></span><br><span class="line">  [ configuration C ] </span><br><span class="line">&#125;</span><br><span class="line">location ~* .(gif|jpg|jpeg)$ &#123;</span><br><span class="line">  <span class="comment"># 匹配以 gif, jpg, or jpeg结尾的请求. </span></span><br><span class="line">  <span class="comment"># 但是所有 /images/ 目录的请求将由 [Configuration C]处理.   </span></span><br><span class="line">  [ configuration D ] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="服务端获得客户端的真实ip"><a href="#服务端获得客户端的真实ip" class="headerlink" title="服务端获得客户端的真实ip"></a>服务端获得客户端的真实ip</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location /&#123;  </span><br><span class="line">                proxy_pass http://192.168.1.111:8080;  </span><br><span class="line">                proxy_set_header Host <span class="variable">$host</span>;  </span><br><span class="line">                proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;  </span><br><span class="line">                proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line"><span class="comment">## node </span></span><br><span class="line">var real_ip = req.get(<span class="string">"X-Real-IP"</span>) || req.get(<span class="string">"X-Forwarded-For"</span>) || req.ip;</span><br></pre></td></tr></table></figure>
+<h4 id="openresty-隐藏服务器名称及版本，复写http-server头"><a href="#openresty-隐藏服务器名称及版本，复写http-server头" class="headerlink" title="openresty 隐藏服务器名称及版本，复写http server头"></a>openresty 隐藏服务器名称及版本，复写http server头</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">    server_tokens off;  <span class="comment">#隐藏server版本</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">        <span class="comment">#复写http server</span></span><br><span class="line">        header_filter_by_lua <span class="string">'ngx.header.server = "apache/2.4"'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="图片服务，静态文件"><a href="#图片服务，静态文件" class="headerlink" title="图片服务，静态文件"></a>图片服务，静态文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  10.0.12.75;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#charset koi8-r;</span></span><br><span class="line">    <span class="comment">#access_log  logs/host.access.log  main;</span></span><br><span class="line">    <span class="comment">###  path  /data/image/test.jpg </span></span><br><span class="line"></span><br><span class="line">    location /image &#123;</span><br><span class="line"></span><br><span class="line">        add_header <span class="string">'Access-Control-Allow-Origin'</span> <span class="string">'*'</span>;</span><br><span class="line">        add_header Cache-Control no-store;</span><br><span class="line"></span><br><span class="line">        root   /data/;</span><br><span class="line">        autoindex on;   <span class="comment">#预览</span></span><br><span class="line">        <span class="comment">#index  index.html index.htm;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置强制跳转到https"><a href="#配置强制跳转到https" class="headerlink" title="配置强制跳转到https"></a>配置强制跳转到https</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line"></span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.m.com;</span><br><span class="line">    <span class="built_in">return</span> 301 https://<span class="variable">$server_name</span>/<span class="variable">$request_uri</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">    listen 443 ssl http2;</span><br><span class="line">    server_name www.m.com;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate cert/www.m.com.crt;</span><br><span class="line">    ssl_certificate_key cert/www.m.com.key;</span><br><span class="line">    <span class="comment">#内部跳转 307</span></span><br><span class="line">    <span class="comment">#add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";</span></span><br><span class="line">    ssl_protocols  TLSv1.1 TLSv1.2 TLSv1.3;</span><br><span class="line">    ssl_ciphers <span class="string">"ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4:!3DES:!DHE"</span>;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line"></span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">        expires 1h;</span><br><span class="line">        root  /data/volume/DMP/frontend/dist;</span><br><span class="line">        error_page  404 400           /404.html;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">#location ~* .(js|jpg|jpeg)$ &#123;</span></span><br><span class="line">    <span class="comment">#   root  /data/volume/DMP/frontend/dist;</span></span><br><span class="line">    <span class="comment">#    error_page  404 400           /404.html;</span></span><br><span class="line">    <span class="comment">#    expires 3h;</span></span><br><span class="line">    <span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">    location = /404.html &#123;</span><br><span class="line">            root html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>_注意_</strong> ： 请求的<code>url</code>匹配 <code>listen</code>端口和<code>server_name</code>，如果能匹配端口但是没有<code>server_name</code>与之对应的，会匹配第一个<code>listen</code>端口，忽视server_name，如 上面的配置，直接访问<code>http://ip</code>会跳转到<code>https://www.m.com</code><br><strong>_注意_</strong>：chrome浏览器在开发者模式选中<code>disable cache</code>情况下，301跳转仍然继续会用 <code>cache from disk</code>，需手动清除缓存 <code>ctrl + shift +delete</code>，chrome的缓存可通过<code>chrome://net-internals/</code>查看。</p>
+<h4 id="内部跳转到https"><a href="#内部跳转到https" class="headerlink" title="内部跳转到https"></a>内部跳转到https</h4><p>在网站全站HTTPS后，如果用户手动敲入网站的HTTP地址，或者从其它地方点击了网站的HTTP链接，通常依赖于服务器端的301/302重定向跳转才能使用HTTPS服务。而第一次的HTTP请求就有可能被劫持，导致请求无法到达服务器，从而构成HTTPS降级劫持。这个问题目前可以通过HSTS(HTTP Strict Transport Security，RFC6797)来解决。<br><code>add_header Strict-Transport-Security &quot;max-age=63072000; includeSubdomains; preload&quot;;</code></p>
+<h3 id="3、缓存"><a href="#3、缓存" class="headerlink" title="3、缓存"></a>3、缓存</h3><ul>
+<li><p>nginx设置浏览器缓存</p>
+</li>
+<li><p>nginx设置代理缓存 </p>
+</li>
+</ul>
+<h3 id="4、https"><a href="#4、https" class="headerlink" title="4、https"></a>4、https</h3><h4 id="openssl安装"><a href="#openssl安装" class="headerlink" title="openssl安装"></a>openssl安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载openssl</span></span><br><span class="line">curl -O https://www.openssl.org/<span class="built_in">source</span>/openssl-1.0.2n.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#解压</span></span><br><span class="line"><span class="comment">#指定安装目录</span></span><br><span class="line">./config --prefix=/usr/<span class="built_in">local</span>/openssl</span><br><span class="line">./config -t</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">#将/usr/local/openssl/bin添加到环境变量</span></span><br><span class="line"><span class="comment"># vim  /etc/profile</span></span><br><span class="line"><span class="built_in">export</span> OPENSSL_HOME=/usr/<span class="built_in">local</span>/openssl</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$OPENSSL_HOME</span>/bin</span><br><span class="line"><span class="comment"># source /etc/profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># openssl version</span></span><br></pre></td></tr></table></figure>
+<h4 id="openssl实现私有CA"><a href="#openssl实现私有CA" class="headerlink" title="openssl实现私有CA"></a>openssl实现私有CA</h4><p>参考  <a href="https://www.cnblogs.com/AloneSword/p/4656492.html" target="_blank" rel="noopener">https://www.cnblogs.com/AloneSword/p/4656492.html</a></p>
+<h4 id="TLS1-3"><a href="#TLS1-3" class="headerlink" title="TLS1.3"></a>TLS1.3</h4><p>TLS1.3是一种新的加密协议，我们把使互联网实现安全通信的基础性技术称为传输层安全协议（TLS）。TLS是安全套接层协议（SSL）的进化版本，SSL是由Netscape公司在1990年代研发的。<br>参考 <a href="https://www.jianshu.com/p/365cb6057387" target="_blank" rel="noopener">https://www.jianshu.com/p/365cb6057387</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/openresty/" rel="tag"># openresty</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/18/nodejs/" rel="next" title="nodejs">
+                <i class="fa fa-chevron-left"></i> nodejs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/18/java_xiancheng/" rel="prev" title="Java多线程">
+                Java多线程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDc2NC8xNzI5MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Johnny">
+            
+              <p class="site-author-name" itemprop="name">Johnny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、OpenResty安装"><span class="nav-number">1.</span> <span class="nav-text">1、OpenResty安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、openresty配置"><span class="nav-number">2.</span> <span class="nav-text">2、openresty配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx匹配规则"><span class="nav-number">2.1.</span> <span class="nav-text">nginx匹配规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务端获得客户端的真实ip"><span class="nav-number">2.2.</span> <span class="nav-text">服务端获得客户端的真实ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#openresty-隐藏服务器名称及版本，复写http-server头"><span class="nav-number">2.3.</span> <span class="nav-text">openresty 隐藏服务器名称及版本，复写http server头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片服务，静态文件"><span class="nav-number">2.4.</span> <span class="nav-text">图片服务，静态文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置强制跳转到https"><span class="nav-number">2.5.</span> <span class="nav-text">配置强制跳转到https</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内部跳转到https"><span class="nav-number">2.6.</span> <span class="nav-text">内部跳转到https</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、缓存"><span class="nav-number">3.</span> <span class="nav-text">3、缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、https"><span class="nav-number">4.</span> <span class="nav-text">4、https</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#openssl安装"><span class="nav-number">4.1.</span> <span class="nav-text">openssl安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#openssl实现私有CA"><span class="nav-number">4.2.</span> <span class="nav-text">openssl实现私有CA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TLS1-3"><span class="nav-number">4.3.</span> <span class="nav-text">TLS1.3</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style="display:none">
+    本站总访问量 <i class="fa fa-eye" id="busuanzi_value_site_pv"></i>
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style="display:none">
+    本站访客数 <i class="fa fa-user" id="busuanzi_value_site_uv"></i>
+</span>
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

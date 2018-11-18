@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mysql,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="MySQL安装 添加 MySQL Yum Repository 1sudo yum -y localinstall http://mirrors.d.com/software/mysql/5.7/mysql57-community-release-el7-11.noarch.rpm  默认是最新版5.7版本的mysql，需要安装5.6版本，所以修改/etc/yum.repos.d/mysql-co">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL备份">
+<meta property="og:url" content="http://yoursite.com/2017/11/18/mysql/index.html">
+<meta property="og:site_name" content="asD">
+<meta property="og:description" content="MySQL安装 添加 MySQL Yum Repository 1sudo yum -y localinstall http://mirrors.d.com/software/mysql/5.7/mysql57-community-release-el7-11.noarch.rpm  默认是最新版5.7版本的mysql，需要安装5.6版本，所以修改/etc/yum.repos.d/mysql-co">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-03T12:42:41.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL备份">
+<meta name="twitter:description" content="MySQL安装 添加 MySQL Yum Repository 1sudo yum -y localinstall http://mirrors.d.com/software/mysql/5.7/mysql57-community-release-el7-11.noarch.rpm  默认是最新版5.7版本的mysql，需要安装5.6版本，所以修改/etc/yum.repos.d/mysql-co">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/18/mysql/">
+
+
+
+
+
+  <title>MySQL备份 | asD</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">asD</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/18/mysql/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="asD">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL备份</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-18T09:32:13+08:00">
+                2017-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="MySQL安装"><a href="#MySQL安装" class="headerlink" title="MySQL安装"></a><a href="https://dev.mysql.com/doc/mysql-repo-excerpt/5.6/en/linux-installation-yum-repo.html" target="_blank" rel="noopener">MySQL安装</a></h3><ul>
+<li><p>添加 MySQL Yum Repository</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y localinstall http://mirrors.d.com/software/mysql/5.7/mysql57-community-release-el7-11.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认是最新版5.7版本的mysql，需要安装5.6版本，所以修改<code>/etc/yum.repos.d/mysql-community.repo</code>文件，修改对应版本的enabled字段，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysql57-community]</span><br><span class="line">enabled=0</span><br><span class="line"></span><br><span class="line">[mysql57-community]</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>安装<code>sudo yum -y install mysql-community-server</code>，启动<code>sudo service mysqld start</code>，验证安装是否成功<code>mysqladmin --version</code></li>
+<li>设置默认root的用户密码 <code>mysqladmin -u root password &quot;123456&quot;;</code>，登录<code>mysql -u root -p</code></li>
+<li>添加用户及权限<code>GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON TUTORIALS.*  TO &#39;username&#39;@&#39;%&#39; IDENTIFIED BY &#39;password&#39;;</code>，其中%表示所有客户端ip可连接，可指定IP可连接。也可以直接操作mysql数据库下的user表管理用户。</li>
+</ul>
+<h3 id="Mysql备份"><a href="#Mysql备份" class="headerlink" title="Mysql备份"></a>Mysql备份</h3><ul>
+<li><p>开启<code>binlog</code>日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line">log_bin=mysql-bin   </span><br><span class="line">binlog_format=row</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用操作</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master logs;  <span class="comment">#查看数据库所有日志文件。</span></span><br><span class="line">mysql&gt; flush logs; <span class="comment">#将内存中log日志写磁盘，保存在当前binlog文件中，并产生一个新的binlog日志文件。</span></span><br><span class="line">mysql&gt; reset master;  <span class="comment">#删除所有二进制日志，在（mysql-bin.000001）开始记录。  </span></span><br><span class="line"></span><br><span class="line">mysqldump --all-databases &gt; dump.sql</span><br><span class="line">mysqldump --databases db1 db2 db3 &gt; dump.sql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="xtrabackup备份"><a href="#xtrabackup备份" class="headerlink" title="xtrabackup备份"></a>xtrabackup备份</h3><ul>
+<li><p>1、安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm</span><br><span class="line"></span><br><span class="line">yum install percona-xtrabackup-24</span><br><span class="line"></span><br><span class="line">yum -y install perl-DBD-MySQL.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、创建备份用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; grant reload,lock tables,replication client on *.* to &apos;backup&apos;@&apos;localhost&apos; identified by &apos;123456&apos;;</span><br><span class="line"></span><br><span class="line">mysql&gt; grant process on *.* to backup@&apos;localhost&apos;;</span><br><span class="line"></span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、全量物理备份</p>
+<ul>
+<li><p>生成当前时间戳命名的备份文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innobackupex --user=backup --password=123456 /data/mysql/backup</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>让备份文件准备，备份文件不能直接用于恢复，因为备份的数据中可能会包含尚未提交的事务或已经提交但尚未同步至数据文件中的事务，此时数据文件处于不一致的状态。因此，我们现在就是要通过回滚未提交的事务及同步已经提交的事务至数据文件也使得数据文件处于一致性状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innobackupex --user=backup --password=123456 --apply-log /data/mysql/backup/2017-11-24_14-11-17</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将mysql的数据目录链接到这个已经恢复的备份目录，或直接用copy-back拷贝至mysql数据目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop mysqld</span><br><span class="line">mv mysql mysql.old</span><br><span class="line">ln -s /data/mysql/backup/2017-11-24_14-11-17/  /var/lib/mysql</span><br><span class="line">chown  mysql:mysql /var/lib/mysql</span><br><span class="line">chown -R mysql:mysql /data/mysql/backup/*</span><br><span class="line"></span><br><span class="line">systemctl start mysqld  #重启mysql即可 恢复</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>4、增量备份</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#全备</span><br><span class="line">innobackupex --user=backup --password=123456 /data/mysql/backup </span><br><span class="line"></span><br><span class="line">#第一次增量备份</span><br><span class="line">innobackupex  --user=backup --password=123456 --incremental /data/mysql/backup/inc  --incremental-basedir=/data/mysql/backup/2017-11-24_14-11-17/</span><br><span class="line"></span><br><span class="line">#第二次增量备份</span><br><span class="line">innobackupex  --user=backup --password=123456 --incremental /data/mysql/backup/inc  --incremental-basedir=incremental /data/mysql/backup/inc/2017-11-24_14-18-35</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#恢复 </span><br><span class="line">innobackupex --apply-log --redo-only ~/data/mysql/backup/full/2017-11-24_16-29-09/</span><br><span class="line"></span><br><span class="line">## 注意每次恢复后设置 备份文件的mysql用户权限</span><br><span class="line"></span><br><span class="line">innobackupex --apply-log --redo-only /data/mysql/backup/full/2017-01-20_10-52-43 --incremental-dir=/data/mysql/backup/inc/2017-01-20_11-04-31</span><br></pre></td></tr></table></figure>
+<h3 id="shell-脚本"><a href="#shell-脚本" class="headerlink" title="shell 脚本"></a>shell 脚本</h3><ul>
+<li><p>mysql和xtrabackup安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#####  mysql  安装   默认5.7    </span></span><br><span class="line">yum  -y install http://mirrors.d.com/software/mysql/5.7/mysql57-community-release-el7-11.noarch.rpm </span><br><span class="line"></span><br><span class="line"><span class="comment">#echo "#### install   mysql：默认安装最新版5.7，  若需要之前版本需要修改/etc/yum.repos.d/mysql-community.repo 中对应版本的enabled值"</span></span><br><span class="line"></span><br><span class="line">yum -y install mysql-community-server</span><br><span class="line">mysqladmin --version</span><br><span class="line"></span><br><span class="line"><span class="comment">#  deta目录   /var/lib/mysql</span></span><br><span class="line"><span class="keyword">if</span> [ ! -d /var/lib/mysql ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> install  mysql  failed</span><br><span class="line">    <span class="built_in">exit</span> 0;</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line"><span class="comment">###### mysql 设置</span></span><br><span class="line"><span class="comment">#设置 root  密码   123456</span></span><br><span class="line">mysqladmin -u root password <span class="string">"123456"</span>;</span><br><span class="line"><span class="comment">#允许所有客户端访问</span></span><br><span class="line"> <span class="comment">##mysql -uroot -p123456 -D mysql -e "update user set Host='%' where User='root' and Host='127.0.0.1';"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Grant all on *.* to 'root'@'%' identified by 'password' with grant option;</span></span><br><span class="line">mysql -uroot -p123456 -e <span class="string">"Grant all on *.* to 'root'@'%' identified by 'password' with grant option;"</span></span><br><span class="line"><span class="comment">#创建备份用户  backup  123456</span></span><br><span class="line">mysql -uroot -p123456 -e <span class="string">"grant reload,lock tables,replication client ,process on *.* to 'backup'@'localhost' identified by '123456';"</span></span><br><span class="line"></span><br><span class="line">mysql -uroot -p123456 -e <span class="string">' flush privileges;'</span></span><br><span class="line"></span><br><span class="line">mysql -uroot -p123456 -D mysql  -e <span class="string">'select host,user from user;'</span>  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#xtrabackup安装 </span></span><br><span class="line">yum   -y install   http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm</span><br><span class="line">yum -y install   percona-xtrabackup-24</span><br><span class="line"><span class="comment">#yum  -y  install  perl-DBD-MySQL.x86_64</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份脚本，定时执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mysql备份文件，该文件每天执行，每周一全备，每天基于本周一的全备做增量备份</span></span><br><span class="line"><span class="comment">#全备最近四周，增备最近七天</span></span><br><span class="line"><span class="comment">#  crontab -e</span></span><br><span class="line"><span class="comment">#  00 03 * * 1  /data/mysql/backup/backup.sh</span></span><br><span class="line">backupfull_dir=<span class="string">'/data/mysql/backup/full'</span></span><br><span class="line">backupinc_dir=<span class="string">'/data/mysql/backup/inc'</span></span><br><span class="line">username=<span class="string">'backup'</span></span><br><span class="line">password=<span class="string">'123456'</span></span><br><span class="line"><span class="comment">#需要在备份服务器上对备份文件定期删除处理</span></span><br><span class="line">backup_host=<span class="string">'10.0.12.59'</span>   </span><br><span class="line">last4week_day=`date -d -4weeks <span class="string">'+%Y-%m-%d'</span>`  </span><br><span class="line">week_day=`date +%w`</span><br><span class="line">lastmon_day=`date -d <span class="string">"last Mon"</span> +<span class="string">"%Y-%m-%d"</span>`</span><br><span class="line">today=`date +%Y-%m-%d`</span><br><span class="line"></span><br><span class="line"><span class="comment"># Every Monday  full back </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$week_day</span> == 1 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="comment">#周一删除四周前的基础备份，新增基础备份</span></span><br><span class="line">    rm -rf <span class="variable">$&#123;backupfull_dir&#125;</span>/<span class="variable">$&#123;last4week_day&#125;</span>*</span><br><span class="line">    <span class="built_in">ulimit</span> -n 65535 &amp;&amp; innobackupex --user=<span class="variable">$username</span> --password=<span class="variable">$password</span> <span class="variable">$backupfull_dir</span></span><br><span class="line">    <span class="comment">#备份文件传到其他服务器</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$backup_host</span> ]; <span class="keyword">then</span> </span><br><span class="line">      new_full=`ls <span class="variable">$&#123;backupfull_dir&#125;</span> |grep <span class="variable">$today</span>`</span><br><span class="line">      <span class="comment">#tar czvf $&#123;new_full&#125;.tar $new_full </span></span><br><span class="line">      <span class="built_in">cd</span> <span class="variable">$backupfull_dir</span> &amp;&amp; tar -cf - <span class="variable">$&#123;new_full&#125;</span> | pigz &gt; <span class="variable">$&#123;new_full&#125;</span>.tgz</span><br><span class="line">      rsync -rl <span class="variable">$&#123;new_full&#125;</span>.tar root@10.0.12.59:/data/mysql/backup/full </span><br><span class="line">      rm -rf <span class="variable">$&#123;new_full&#125;</span>.tar</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#每天增量备份，基于周一的全备</span></span><br><span class="line">full_dir=`ls <span class="variable">$&#123;backupfull_dir&#125;</span> |grep <span class="variable">$lastmon_day</span>`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$full_dir</span> ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">ulimit</span> -n 65535 &amp;&amp; innobackupex  --user=<span class="variable">$username</span> --password=<span class="variable">$password</span> --incremental <span class="variable">$backupinc_dir</span>  --incremental-basedir=<span class="variable">$&#123;backupfull_dir&#125;</span>/<span class="variable">$&#123;full_dir&#125;</span> </span><br><span class="line">   <span class="comment">#备份文件传到其他服务器</span></span><br><span class="line">   <span class="keyword">if</span> [ <span class="variable">$backup_host</span> ]; <span class="keyword">then</span></span><br><span class="line">     new_inc=`ls <span class="variable">$&#123;backupinc_dir&#125;</span> |grep <span class="variable">$today</span>`</span><br><span class="line">     <span class="comment">#tar czvf $&#123;new_inc&#125;.tar $new_inc</span></span><br><span class="line">     <span class="built_in">cd</span> <span class="variable">$backupinc_dir</span> &amp;&amp; tar -cf - <span class="variable">$&#123;new_inc&#125;</span> | pigz &gt; <span class="variable">$&#123;new_inc&#125;</span>.tgz</span><br><span class="line">     rsync -rl <span class="variable">$&#123;new_inc&#125;</span>.tar root@10.0.12.59:/data/mysql/backup/inc</span><br><span class="line">     rm -rf <span class="variable">$&#123;new_inc&#125;</span>.tar</span><br><span class="line">   <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment">#删除 一周之前的增量备份</span></span><br><span class="line">find <span class="variable">$backupinc_dir</span> -maxdepth 1  -mtime +7 | xargs rm -rf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="mariadb安装"><a href="#mariadb安装" class="headerlink" title="mariadb安装"></a>mariadb安装</h3><ul>
+<li><p>yum源</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#vim /etc/yum.repo.d/MariaDB.repo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MariaDB 10.1 CentOS repository list - created 2016-12-01 03:36 UTC</span></span><br><span class="line"><span class="comment"># http://downloads.mariadb.org/mariadb/repositories/</span></span><br><span class="line">[mariadb]</span><br><span class="line">name = MariaDB</span><br><span class="line">baseurl = http://yum.mariadb.org/10.1/centos7-amd64</span><br><span class="line">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck=1</span><br><span class="line"></span><br><span class="line"> <span class="comment">#yum clean all</span></span><br><span class="line"> <span class="comment">#yum makecache</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装<code>sudo yum -y install MariaDB-server MariaDB-client</code></p>
+</li>
+<li><p>使用<code>mysql_secure_installation</code>配置MariaDB服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#由于一开始安装MariaDB数据库后, root用户默认密码为空, 所以只需要按Enter键</span></span><br><span class="line">Enter current password <span class="keyword">for</span> root (enter <span class="keyword">for</span> none):</span><br><span class="line"></span><br><span class="line"><span class="comment">#是否设置root用户的新密码</span></span><br><span class="line">Set root password? [Y/n] y</span><br><span class="line"></span><br><span class="line"><span class="comment">#录入新密码</span></span><br><span class="line">New password:</span><br><span class="line"></span><br><span class="line"><span class="comment">#确认新密码</span></span><br><span class="line">Re-enter new password:</span><br><span class="line"></span><br><span class="line"><span class="comment">#是否删除匿名用户,生产环境建议删除</span></span><br><span class="line">Remove anonymous users? [Y/n] y</span><br><span class="line"></span><br><span class="line"><span class="comment">#是否禁止root远程登录,根据自己的需求选择</span></span><br><span class="line">Disallow root login remotely? [Y/n] n</span><br><span class="line"></span><br><span class="line"><span class="comment">#是否删除test数据库</span></span><br><span class="line">Remove <span class="built_in">test</span> database and access to it? [Y/n] y</span><br><span class="line"></span><br><span class="line"><span class="comment">#是否重新加载权限表</span></span><br><span class="line">Reload privilege tables now? [Y/n] y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用户配置，远程访问设置同mysql</p>
+</li>
+<li><p>MariaDB的日志在 <code>/etc/logs/messages</code></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/data/mysql_test   #修改默认路径</span><br><span class="line">socket=/data/mysql_test/mysql.sock</span><br><span class="line">#default-character-set=utf8</span><br><span class="line">character_set_server=utf8</span><br><span class="line">slow_query_log=on</span><br><span class="line">slow_query_log_file=/data/mysql_test/slow_query_log.log</span><br><span class="line">#long_query_time=2</span><br><span class="line"></span><br><span class="line">mysql_install_db --user=mysql --basedir=/usr --datadir=/data/mysql_test/</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/17/pm2/" rel="next" title="PM2设置开机自启动">
+                <i class="fa fa-chevron-left"></i> PM2设置开机自启动
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/20/blueking/" rel="prev" title="蓝鲸运维平台部署">
+                蓝鲸运维平台部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDc2NC8xNzI5MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Johnny">
+            
+              <p class="site-author-name" itemprop="name">Johnny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL安装"><span class="nav-number">1.</span> <span class="nav-text">MySQL安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql备份"><span class="nav-number">2.</span> <span class="nav-text">Mysql备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xtrabackup备份"><span class="nav-number">3.</span> <span class="nav-text">xtrabackup备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-脚本"><span class="nav-number">4.</span> <span class="nav-text">shell 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mariadb安装"><span class="nav-number">5.</span> <span class="nav-text">mariadb安装</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style="display:none">
+    本站总访问量 <i class="fa fa-eye" id="busuanzi_value_site_pv"></i>
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style="display:none">
+    本站访客数 <i class="fa fa-user" id="busuanzi_value_site_uv"></i>
+</span>
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
