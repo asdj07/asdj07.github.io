@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring,redis,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring 3.1 引入了激动人心的基于注释（annotation）的缓存（cache）技术，它本质上不是一个具体的缓存实现方案（例如 EHCache 或者 OSCache），而是一个对缓存使用的抽象，通过注解对方法的传参和返回值进行缓存，对任意方法进行缓存，缓存方法不能与被调用的方法在同一个类中。默认情况下会使用基于内存map一种缓存方案ConcurrenMapCacheManager。也可">
+<meta name="keywords" content="spring,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring redis cache">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/spring_redis_cache_table/index.html">
+<meta property="og:site_name" content="asD">
+<meta property="og:description" content="Spring 3.1 引入了激动人心的基于注释（annotation）的缓存（cache）技术，它本质上不是一个具体的缓存实现方案（例如 EHCache 或者 OSCache），而是一个对缓存使用的抽象，通过注解对方法的传参和返回值进行缓存，对任意方法进行缓存，缓存方法不能与被调用的方法在同一个类中。默认情况下会使用基于内存map一种缓存方案ConcurrenMapCacheManager。也可">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-12T06:04:22.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring redis cache">
+<meta name="twitter:description" content="Spring 3.1 引入了激动人心的基于注释（annotation）的缓存（cache）技术，它本质上不是一个具体的缓存实现方案（例如 EHCache 或者 OSCache），而是一个对缓存使用的抽象，通过注解对方法的传参和返回值进行缓存，对任意方法进行缓存，缓存方法不能与被调用的方法在同一个类中。默认情况下会使用基于内存map一种缓存方案ConcurrenMapCacheManager。也可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/spring_redis_cache_table/">
+
+
+
+
+
+  <title>Spring redis cache | asD</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">asD</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/spring_redis_cache_table/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Johnny">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="asD">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring redis cache</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-12T09:32:13+08:00">
+                2018-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><p>Spring 3.1 引入了激动人心的基于注释（annotation）的缓存（cache）技术，它本质上不是一个具体的缓存实现方案（例如 EHCache 或者 OSCache），而是一个对缓存使用的抽象，通过注解对方法的传参和返回值进行缓存，对任意方法进行缓存，缓存方法不能与被调用的方法在同一个类中。默认情况下会使用基于内存map一种缓存方案ConcurrenMapCacheManager。也可以通过配置使用Redis等。  </p>
+</li>
+<li><p>Mybatis缓存，Mybatis自己有一级缓存、二级缓存，可以通过实现<code>org.apache.ibatis.cache.Cache</code>接口，实现Mybatis的二级缓存。此种方法只能对sql查询进行缓存，而Spring cache可以对任意方法进行缓存。Mybatis默认就支持一级缓存,如果Mybatis与Spring整合了，Spring会自动关闭sqlSession的。所以一级缓存会失效。</p>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="1、Redis安装"><a href="#1、Redis安装" class="headerlink" title="1、Redis安装"></a>1、Redis安装</h3><ul>
+<li>配置redis.conf  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"># 设置密码auth</span><br><span class="line">requirepass</span><br><span class="line"></span><br><span class="line">#允许外网访问</span><br><span class="line">#bind </span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line"># 后台运行</span><br><span class="line">daemonize yes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    　　pdifile：把pid文件放在/var/run/redis.pid，可以配置到其他地址</span><br><span class="line"></span><br><span class="line">    　　bind：指定redis只接收来自该IP的请求，如果不设置，那么将处理所有请求，在生产环节中最好设置该项</span><br><span class="line"></span><br><span class="line">    　　port：监听端口，默认为6379</span><br><span class="line"></span><br><span class="line">    　　timeout：设置客户端连接时的超时时间，单位为秒</span><br><span class="line"></span><br><span class="line">    　　loglevel：等级分为4级，debug，revbose，notice和warning。生产环境下一般开启notice</span><br><span class="line"></span><br><span class="line">    　　logfile：配置log文件地址，默认使用标准输出，即打印在命令行终端的端口上</span><br><span class="line"></span><br><span class="line">    　　database：设置数据库的个数，默认使用的数据库是0</span><br><span class="line"></span><br><span class="line">    　　save：设置redis进行数据库镜像的频率</span><br><span class="line"></span><br><span class="line">    　　rdbcompression：在进行镜像备份时，是否进行压缩</span><br><span class="line"></span><br><span class="line">    　　dbfilename：镜像备份文件的文件名</span><br><span class="line"></span><br><span class="line">    　　dir：数据库镜像备份的文件放置的路径</span><br><span class="line"></span><br><span class="line">    　　slaveof：设置该数据库为其他数据库的从数据库</span><br><span class="line"></span><br><span class="line">    　　masterauth：当主数据库连接需要密码验证时，在这里设定</span><br><span class="line"></span><br><span class="line">    　　requirepass：设置客户端连接后进行任何其他指定前需要使用的密码</span><br><span class="line"></span><br><span class="line">    　　maxclients：限制同时连接的客户端数量</span><br><span class="line"></span><br><span class="line">    　　maxmemory：设置redis能够使用的最大内存</span><br><span class="line"></span><br><span class="line">    　　appendonly：开启appendonly模式后，redis会把每一次所接收到的写操作都追加到appendonly.aof文件中，当redis重新启动时，会从该文件恢复出之前的状态</span><br><span class="line"></span><br><span class="line">    　　appendfsync：设置appendonly.aof文件进行同步的频率</span><br><span class="line"></span><br><span class="line">    　　vm_enabled：是否开启虚拟内存支持</span><br><span class="line"></span><br><span class="line">    　　vm_swap_file：设置虚拟内存的交换文件的路径</span><br><span class="line"></span><br><span class="line">    　　vm_max_momery：设置开启虚拟内存后，redis将使用的最大物理内存的大小，默认为0</span><br><span class="line"></span><br><span class="line">    　　vm_page_size：设置虚拟内存页的大小</span><br><span class="line"></span><br><span class="line">    　　vm_pages：设置交换文件的总的page数量</span><br><span class="line"></span><br><span class="line">    　　vm_max_thrrads：设置vm IO同时使用的线程数量</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2、Redis数据类型"><a href="#2、Redis数据类型" class="headerlink" title="2、Redis数据类型"></a>2、Redis数据类型</h3><ul>
+<li><p>String </p>
+</li>
+<li><p>Hash</p>
+</li>
+<li><p>List</p>
+</li>
+<li><p>Set</p>
+</li>
+</ul>
+<h3 id="3、Spring-boot集成Redis"><a href="#3、Spring-boot集成Redis" class="headerlink" title="3、Spring boot集成Redis"></a>3、Spring boot集成Redis</h3><ul>
+<li><p>pom.xml</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>application.yaml</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">    redis:</span><br><span class="line">        host: </span><br><span class="line">        port: 6379</span><br><span class="line">        password: </span><br><span class="line">        jedis:</span><br><span class="line">            pool:</span><br><span class="line">                max-active: 8  # 最大连接数</span><br><span class="line">                max-idle: 10   # 最大空闲连接</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>RedisUtil</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate&lt;Object, Object&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRedisTemplate</span><span class="params">(RedisTemplate redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 重定义redis序列化器，去除key值首部乱码</span></span><br><span class="line">        RedisSerializer stringSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">        redisTemplate.setKeySerializer(stringSerializer);</span><br><span class="line">        redisTemplate.setValueSerializer(stringSerializer);</span><br><span class="line">        redisTemplate.setHashKeySerializer(stringSerializer);</span><br><span class="line">        redisTemplate.setHashValueSerializer(stringSerializer);</span><br><span class="line">        <span class="keyword">this</span>.redisTemplate = redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(String key, String value, <span class="keyword">long</span> expire)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key, value, expire, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForValue().set(key, value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.opsForValue().get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hput</span><span class="params">(String h, String hk , String hv)</span> </span>&#123;</span><br><span class="line">        redisTemplate.opsForHash().put(h, hk, hv);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4、Spring-boot-cache"><a href="#4、Spring-boot-cache" class="headerlink" title="4、Spring boot  cache"></a>4、Spring boot  cache</h3><ul>
+<li><p>spring boot中开启缓存，默认情况下会使用基于内存map一种缓存方案ConcurrenMapCacheManager。也可以通过配置使用Redis等。缓存方法不能与被调用的方法在同一个类中。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span></span><br><span class="line"><span class="meta">@CachePut</span> </span><br><span class="line"><span class="meta">@CacheEvict</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启缓存</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pom引入相应包</span></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span> </span><br><span class="line"><span class="meta">@EnableCaching</span> <span class="comment">//启用缓存</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(App.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4、Spring-boot-redis-cache"><a href="#4、Spring-boot-redis-cache" class="headerlink" title="4、Spring boot  redis  cache"></a>4、Spring boot  redis  cache</h3><ul>
+<li><p>RedisCacheConfig</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisCacheConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;Object, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;Object, Object&gt; redisTemplate = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        redisTemplate.setConnectionFactory(redisConnectionFactory);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">cacheManager</span><span class="params">(RedisTemplate redisTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获得redis缓存管理类</span></span><br><span class="line">        RedisCacheManager redisCacheManager = <span class="keyword">new</span> RedisCacheManager(redisTemplate);</span><br><span class="line">        <span class="comment">// 开启使用缓存名称做为key前缀(这样所有同名缓存会整理在一起比较容易查找)</span></span><br><span class="line">        redisCacheManager.setUsePrefix(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//这里可以设置一个默认的过期时间 单位是秒</span></span><br><span class="line">        redisCacheManager.setDefaultExpiration(<span class="number">60</span>);</span><br><span class="line">        <span class="comment">// 设置缓存的过期时间 单位是秒</span></span><br><span class="line">        <span class="comment">//Map&lt;String, Long&gt; expires = new HashMap&lt;&gt;();</span></span><br><span class="line">        <span class="comment">//expires.put("pub.imlichao.CacheTest.cacheFunction", 100L);</span></span><br><span class="line">        <span class="comment">//redisCacheManager.setExpires(expires);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redisCacheManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UserService</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cacheable</span>(value = <span class="string">"User"</span>, key=<span class="string">"#name"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getUserByName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"method == getUserByName"</span>);</span><br><span class="line">        List&lt;User&gt; user = userMapper.findByName(name);</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @CachePut(value = "User", key="#name")  //更新缓存</span></span><br><span class="line"><span class="comment">//    public List&lt;User&gt; updateUserByName(String name, User user) &#123;</span></span><br><span class="line"><span class="comment">//        log.info("method == updateUserByName");</span></span><br><span class="line"><span class="comment">//        userMapper.update(user);</span></span><br><span class="line"><span class="comment">//        List&lt;User&gt; userList = new ArrayList&lt;User&gt;();;</span></span><br><span class="line"><span class="comment">//        userList.add(user);</span></span><br><span class="line"><span class="comment">//        return userList;</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@CacheEvict</span>(value = <span class="string">"User"</span>, key=<span class="string">"#name"</span>)   <span class="comment">//删除缓存</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUserByName</span><span class="params">(String name, User user)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"method == updateUserByName"</span>);</span><br><span class="line">        userMapper.update(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5、mybatis-cache"><a href="#5、mybatis-cache" class="headerlink" title="5、mybatis  cache"></a>5、mybatis  cache</h3><ul>
+<li><p>Mybatis一级缓存<br>  Mybatis的一级缓存是指Session缓存。一级缓存的作用域默认是一个SqlSession。Mybatis默认开启一级缓存。 也就是在同一个SqlSession中，执行相同的查询SQL，第一次会去数据库进行查询，并写到缓存中； 第二次以后是直接去缓存中取。 当执行SQL查询中间发生了增删改的操作，MyBatis会把SqlSession的缓存清空。 如果Mybatis与Spring整合了，Spring会自动关闭sqlSession的。所以一级缓存会失效的。<br>  <code>SqlSession -&gt; Executor -&gt; cache</code></p>
+</li>
+<li><p>Mybatis二级缓存<br>  <code>mapper</code></p>
+</li>
+</ul>
+<hr>
+<p>参考  </p>
+<p>spring cache  </p>
+<p><a href="https://my.oschina.net/u/3452433/blog/1831026" target="_blank" rel="noopener">https://my.oschina.net/u/3452433/blog/1831026</a>  </p>
+<p><a href="https://juejin.im/entry/59a4d74b518825244d205485" target="_blank" rel="noopener">https://juejin.im/entry/59a4d74b518825244d205485</a></p>
+<p>mybatis cache<br><a href="https://blog.csdn.net/luanlouis/article/details/41280959" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/41280959</a></p>
+<p><a href="https://blog.csdn.net/luanlouis/article/details/41390801" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/41390801</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/27726873" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27726873</a></p>
+<p><a href="https://www.jianshu.com/p/c553169c5921" target="_blank" rel="noopener">https://www.jianshu.com/p/c553169c5921</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/17/20181117/" rel="next" title="小柯基">
+                <i class="fa fa-chevron-left"></i> 小柯基
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDc2NC8xNzI5MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Johnny">
+            
+              <p class="site-author-name" itemprop="name">Johnny</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Redis安装"><span class="nav-number">1.</span> <span class="nav-text">1、Redis安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Redis数据类型"><span class="nav-number">2.</span> <span class="nav-text">2、Redis数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Spring-boot集成Redis"><span class="nav-number">3.</span> <span class="nav-text">3、Spring boot集成Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Spring-boot-cache"><span class="nav-number">4.</span> <span class="nav-text">4、Spring boot  cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Spring-boot-redis-cache"><span class="nav-number">5.</span> <span class="nav-text">4、Spring boot  redis  cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、mybatis-cache"><span class="nav-number">6.</span> <span class="nav-text">5、mybatis  cache</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Johnny</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style="display:none">
+    本站总访问量 <i class="fa fa-eye" id="busuanzi_value_site_pv"></i>
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style="display:none">
+    本站访客数 <i class="fa fa-user" id="busuanzi_value_site_uv"></i>
+</span>
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
