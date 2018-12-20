@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="todo,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="推荐阅读 https://juejin.im/post/5b1e69dcf265da6e0d7a347e    Linux中的账户包括：    用户账户 普通用户 超级用户   组账户 标准组 私有组">
+<meta name="description" content="创建多线程有两种方法 继承Thread，重写run方法   1234567891011121314151617public class MyThread extends Thread &amp;#123;    @Override    public void run() &amp;#123;        for (int x = 0; x &amp;lt; 200; x++) &amp;#123;            Sy">
+<meta name="keywords" content="todo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux用户管理">
-<meta property="og:url" content="http://yoursite.com/2018/12/13/linux_user/index.html">
+<meta property="og:title" content="java 多线程">
+<meta property="og:url" content="http://yoursite.com/2018/08/12/java_thread/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="推荐阅读 https://juejin.im/post/5b1e69dcf265da6e0d7a347e    Linux中的账户包括：    用户账户 普通用户 超级用户   组账户 标准组 私有组">
+<meta property="og:description" content="创建多线程有两种方法 继承Thread，重写run方法   1234567891011121314151617public class MyThread extends Thread &amp;#123;    @Override    public void run() &amp;#123;        for (int x = 0; x &amp;lt; 200; x++) &amp;#123;            Sy">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-18T03:10:44.656Z">
+<meta property="og:updated_time" content="2018-12-20T07:32:22.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux用户管理">
-<meta name="twitter:description" content="推荐阅读 https://juejin.im/post/5b1e69dcf265da6e0d7a347e    Linux中的账户包括：    用户账户 普通用户 超级用户   组账户 标准组 私有组">
+<meta name="twitter:title" content="java 多线程">
+<meta name="twitter:description" content="创建多线程有两种方法 继承Thread，重写run方法   1234567891011121314151617public class MyThread extends Thread &amp;#123;    @Override    public void run() &amp;#123;        for (int x = 0; x &amp;lt; 200; x++) &amp;#123;            Sy">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/13/linux_user/">
+  <link rel="canonical" href="http://yoursite.com/2018/08/12/java_thread/">
 
 
 
 
 
-  <title>Linux用户管理 | asD</title>
+  <title>java 多线程 | asD</title>
   
 
 
@@ -262,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/13/linux_user/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/12/java_thread/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Johnny">
@@ -279,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux用户管理</h1>
+          <h1 class="post-title" itemprop="name headline">java 多线程</h1>
         
 
         <div class="post-meta">
@@ -291,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-13T09:32:13+08:00">
-                2018-12-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T09:32:13+08:00">
+                2018-08-12
               </time>
             
 
@@ -314,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/运维/" itemprop="url" rel="index">
-                    <span itemprop="name">运维</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -351,49 +352,28 @@
       
 
       
-        <blockquote>
-<p>推荐阅读 <a href="https://juejin.im/post/5b1e69dcf265da6e0d7a347e" target="_blank" rel="noopener">https://juejin.im/post/5b1e69dcf265da6e0d7a347e</a> </p>
-</blockquote>
-<blockquote>
-<p>Linux中的账户包括：  </p>
+        <h4 id="创建多线程有两种方法"><a href="#创建多线程有两种方法" class="headerlink" title="创建多线程有两种方法"></a>创建多线程有两种方法</h4><ul>
+<li><p>继承Thread，重写run方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="number">200</span>; x++) &#123;</span><br><span class="line">            System.out.println(x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThreadDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread my1 = <span class="keyword">new</span> MyThread();</span><br><span class="line">        MyThread my2 = <span class="keyword">new</span> MyThread();</span><br><span class="line">        my1.start();</span><br><span class="line">        my2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实现Runnable接口，重写run方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; <span class="number">100</span>; x++) &#123;</span><br><span class="line">            System.out.println(x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRunnableDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyRunnable my = <span class="keyword">new</span> MyRunnable();</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(my);</span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(my);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>run()和start()方法区别:</p>
 <ul>
-<li>用户账户<ul>
-<li>普通用户</li>
-<li>超级用户</li>
+<li><code>run()</code>，仅仅是封装被线程执行的代码，直接调用是普通方法</li>
+<li><code>start()</code>，首先启动了线程，然后再由jvm去调用该线程的run()方法。</li>
 </ul>
 </li>
-<li>组账户<ul>
-<li>标准组</li>
-<li>私有组<a id="more"></a>
+<li><p>一般使用多线程通过实现<code>Runnable</code>接口实现</p>
+<ul>
+<li>可以避免java中的单继承的限制</li>
+<li>将并发运行任务和运行机制解耦</li>
+</ul>
 </li>
 </ul>
-</li>
-</ul>
-</blockquote>
-<p>当一个用户属于多个组时，将组分为：</p>
-<ul>
-<li>主组（初始组）：用户登录系统时的组</li>
-<li>附加组：登录后可切换的其他组</li>
-</ul>
-<blockquote>
-<p>账户的实质上就是用户在系统上的标识，这些标识是用文件保存起来的。</p>
-<ul>
-<li><code>/etc/passwd</code><br>  <code>name:password:uid:gid:description:home:shell</code></li>
-<li><code>/etc/shadow</code></li>
-<li><code>/etc/group</code></li>
-<li><code>/etc/gshdow</code></li>
-</ul>
-</blockquote>
-<blockquote>
-<p><code>su</code> 和 <code>sudo</code>的<a href="https://www.cnblogs.com/slgkaifa/p/6852884.html" target="_blank" rel="noopener">区别</a>  </p>
-</blockquote>
-<pre><code>su方式切换是须要输入目标用户的password。而sudo仅仅须要输入自己的passwor。通过visudo修改用户执行sudo命令的权限.
-</code></pre><blockquote>
-<p>常用命令</p>
-</blockquote>
-<p>新建用户  <code>adduser &lt;username&gt;</code><br>设置用户秘密 <code>passwd &lt;username&gt;</code></p>
 <hr>
-<p>参考<br><a href="https://www.cnblogs.com/slgkaifa/p/6852884.html" target="_blank" rel="noopener">https://www.cnblogs.com/slgkaifa/p/6852884.html</a></p>
+<p>参考<br><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&amp;mid=2247484190&amp;idx=1&amp;sn=ab7301e393aa7762be9ef80d30c5fb7a&amp;chksm=ebd7421fdca0cb09f4a880064a8610416df414ea25284e6d5142ea659e4e7e669632cfed4050#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&amp;mid=2247484190&amp;idx=1&amp;sn=ab7301e393aa7762be9ef80d30c5fb7a&amp;chksm=ebd7421fdca0cb09f4a880064a8610416df414ea25284e6d5142ea659e4e7e669632cfed4050#rd</a></p>
 
       
     </div>
@@ -409,6 +389,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/todo/" rel="tag"># todo</a>
+          
+        </div>
+      
 
       
       
@@ -418,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/13/linux_bash/" rel="next" title="Linux命令">
-                <i class="fa fa-chevron-left"></i> Linux命令
+              <a href="/2018/07/18/Kubernetes/" rel="next" title="Kubernetes">
+                <i class="fa fa-chevron-left"></i> Kubernetes
               </a>
             
           </div>
@@ -428,8 +414,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/13/git/" rel="prev" title="git命令">
-                git命令 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/03/learning/" rel="prev" title="基础知识总结">
+                基础知识总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -487,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -550,6 +545,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建多线程有两种方法"><span class="nav-number">1.</span> <span class="nav-text">创建多线程有两种方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

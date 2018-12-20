@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="推荐阅读Java运行时数据区:https://blog.csdn.net/luanlouis/article/details/40043991Java类加载:https://blog.csdn.net/luanlouis/article/details/50529868">
+<meta name="description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
 <meta name="keywords" content="todo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java jvm">
 <meta property="og:url" content="http://yoursite.com/2018/12/12/java_jvm/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="推荐阅读Java运行时数据区:https://blog.csdn.net/luanlouis/article/details/40043991Java类加载:https://blog.csdn.net/luanlouis/article/details/50529868">
+<meta property="og:description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-18T03:06:40.870Z">
+<meta property="og:updated_time" content="2018-12-20T07:29:56.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java jvm">
-<meta name="twitter:description" content="推荐阅读Java运行时数据区:https://blog.csdn.net/luanlouis/article/details/40043991Java类加载:https://blog.csdn.net/luanlouis/article/details/50529868">
+<meta name="twitter:description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
 
 
 
@@ -352,10 +352,48 @@
       
 
       
-        <blockquote>
-<p>推荐阅读<br>Java运行时数据区:<br><a href="https://blog.csdn.net/luanlouis/article/details/40043991" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/40043991</a><br>Java类加载:<br><a href="https://blog.csdn.net/luanlouis/article/details/50529868" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/50529868</a></p>
-</blockquote>
+        <h2 id="Java运行时数据区"><a href="#Java运行时数据区" class="headerlink" title="Java运行时数据区"></a>Java运行时数据区</h2><h4 id="程序计数器（PC）"><a href="#程序计数器（PC）" class="headerlink" title="程序计数器（PC）"></a>程序计数器（PC）</h4><ul>
+<li>线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址</li>
+<li>每个线程都有自己的PC，记录了当前线程要执行的指令。  </li>
+</ul>
+<h4 id="虚拟机栈（VM-Stack）"><a href="#虚拟机栈（VM-Stack）" class="headerlink" title="虚拟机栈（VM Stack）"></a>虚拟机栈（VM Stack）</h4><ul>
+<li>线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息，</li>
+<li>每个方法被调用和完成的过程，都对应一个栈帧从虚拟机栈上的入栈和出栈的过程。虚拟机栈的生命周期和虚拟机相同。</li>
+<li>后入先出栈，线程调用对象方法时，JVM会创建一个栈帧放到虚拟机栈中，用来表示某个方法的调用，调用过程就是方法的入栈和出栈过程。</li>
+<li>栈帧中包含的内容：<ul>
+<li>局部变量表，</li>
+<li>操作数栈</li>
+<li>动态链接</li>
+<li>方法出口</li>
+</ul>
+</li>
+</ul>
+<h4 id="本地方法栈（Native-Method-Stack）"><a href="#本地方法栈（Native-Method-Stack）" class="headerlink" title="本地方法栈（Native Method Stack）"></a>本地方法栈（Native Method Stack）</h4><ul>
+<li>线程私有，功能和虚拟机栈相似</li>
+<li>存储线程调用本地方法时，本地放法的局部变量表，操作栈等。</li>
+</ul>
+<h4 id="堆-（Heap）"><a href="#堆-（Heap）" class="headerlink" title="堆 （Heap）"></a>堆 （Heap）</h4><ul>
+<li>Heap区被所有的线程共享，在虚拟机启动时创建</li>
+<li>存放对象实例，Heap区是垃圾回收管理的主要区域</li>
+</ul>
+<h4 id="方法区（Method-area）"><a href="#方法区（Method-area）" class="headerlink" title="方法区（Method area）"></a>方法区（Method area）</h4><ul>
+<li>被所有线程共享，用于存储已经被虚拟机加载的类信息，常亮，静态变量，即时编译器编译出来的代码等数据。<ul>
+<li>运行时常量池</li>
+<li>类型信息</li>
+<li>字段信息</li>
+<li>方法信息</li>
+<li>类信息</li>
+<li>指向类加载和class实例的引用</li>
+<li>方法表</li>
+</ul>
+</li>
+</ul>
 <hr>
+<blockquote>
+<p>推荐阅读  </p>
+</blockquote>
+<p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/%E5%8F%AF%E8%83%BD%E6%98%AF%E6%8A%8AJava%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AE%B2%E7%9A%84%E6%9C%80%E6%B8%85%E6%A5%9A%E7%9A%84%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/%E5%8F%AF%E8%83%BD%E6%98%AF%E6%8A%8AJava%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AE%B2%E7%9A%84%E6%9C%80%E6%B8%85%E6%A5%9A%E7%9A%84%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0.md</a> </p>
+<p>Java运行时数据区:<br><a href="https://blog.csdn.net/luanlouis/article/details/40043991" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/40043991</a><br>Java类加载:<br><a href="https://blog.csdn.net/luanlouis/article/details/50529868" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/50529868</a></p>
 
       
     </div>
@@ -386,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/12/linux_win_file/" rel="next" title="linux与windows之间网络共享">
-                <i class="fa fa-chevron-left"></i> linux与windows之间网络共享
+              <a href="/2018/12/12/spring_aop/" rel="next" title="Spring AOP">
+                <i class="fa fa-chevron-left"></i> Spring AOP
               </a>
             
           </div>
@@ -396,8 +434,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/12/spring_aop/" rel="prev" title="Spring AOP">
-                Spring AOP <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/12/spring_redis_cache_table/" rel="prev" title="Spring redis cache">
+                Spring redis cache <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -455,8 +493,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -473,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -484,7 +531,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -518,6 +565,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java运行时数据区"><span class="nav-number">1.</span> <span class="nav-text">Java运行时数据区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#程序计数器（PC）"><span class="nav-number">1.0.1.</span> <span class="nav-text">程序计数器（PC）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机栈（VM-Stack）"><span class="nav-number">1.0.2.</span> <span class="nav-text">虚拟机栈（VM Stack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地方法栈（Native-Method-Stack）"><span class="nav-number">1.0.3.</span> <span class="nav-text">本地方法栈（Native Method Stack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆-（Heap）"><span class="nav-number">1.0.4.</span> <span class="nav-text">堆 （Heap）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区（Method-area）"><span class="nav-number">1.0.5.</span> <span class="nav-text">方法区（Method area）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
