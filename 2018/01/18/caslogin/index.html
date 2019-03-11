@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="CAS单点登录 CAS原理简而言之，CAS通过多个应用系统之间共享cas-server域名下的cookie实现单点登录。  集成了cas的应用系统A进行登录认证的时候先跳转到cas的登录认证页面，登录成功之后，cas server会生成一个TGT存入自己的缓存中，同时会在cas登录认证的域名下设置cookie，即TGC，TGC中包含TGT的id，TGT生成一个令牌ST，浏览器重定向带着ST回调系统">
+<meta name="description" content="单点登录SSO（Single Sign On）CAS（Central Authentication Service）">
 <meta name="keywords" content="cas">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CAS单点登录">
 <meta property="og:url" content="http://yoursite.com/2018/01/18/caslogin/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="CAS单点登录 CAS原理简而言之，CAS通过多个应用系统之间共享cas-server域名下的cookie实现单点登录。  集成了cas的应用系统A进行登录认证的时候先跳转到cas的登录认证页面，登录成功之后，cas server会生成一个TGT存入自己的缓存中，同时会在cas登录认证的域名下设置cookie，即TGC，TGC中包含TGT的id，TGT生成一个令牌ST，浏览器重定向带着ST回调系统">
+<meta property="og:description" content="单点登录SSO（Single Sign On）CAS（Central Authentication Service）">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-03T13:19:13.098Z">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/7/0e2c2be35de3cf42744bae6f1238d6e7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:updated_time" content="2019-03-11T10:10:40.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CAS单点登录">
-<meta name="twitter:description" content="CAS单点登录 CAS原理简而言之，CAS通过多个应用系统之间共享cas-server域名下的cookie实现单点登录。  集成了cas的应用系统A进行登录认证的时候先跳转到cas的登录认证页面，登录成功之后，cas server会生成一个TGT存入自己的缓存中，同时会在cas登录认证的域名下设置cookie，即TGC，TGC中包含TGT的id，TGT生成一个令牌ST，浏览器重定向带着ST回调系统">
+<meta name="twitter:description" content="单点登录SSO（Single Sign On）CAS（Central Authentication Service）">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/11/7/0e2c2be35de3cf42744bae6f1238d6e7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 
 
 
@@ -352,20 +354,25 @@
       
 
       
-        <h2 id="CAS单点登录"><a href="#CAS单点登录" class="headerlink" title="CAS单点登录"></a>CAS单点登录</h2><blockquote>
-<h3 id="CAS原理"><a href="#CAS原理" class="headerlink" title="CAS原理"></a>CAS原理</h3><p>简而言之，CAS通过多个应用系统之间共享cas-server域名下的cookie实现单点登录。</p>
-</blockquote>
-<p>集成了cas的应用系统A进行登录认证的时候先跳转到cas的登录认证页面，登录成功之后，cas server会生成一个TGT存入自己的缓存中，同时会在cas登录认证的域名下设置cookie，即TGC，TGC中包含TGT的id，TGT生成一个令牌ST，浏览器重定向带着ST回调系统A，应用系统A拿着ST再去向cas server请求，ST验证一次之后会失效，cas server验证ST的有效性并且将ST和应用系统A的url信息存入自己的services map中，然后返回登录的用户信息，应用系统A将y用户信息和ST存储到自己的session中。</p>
+        <h3 id="单点登录SSO（Single-Sign-On）"><a href="#单点登录SSO（Single-Sign-On）" class="headerlink" title="单点登录SSO（Single Sign On）"></a>单点登录SSO（Single Sign On）</h3><h4 id="CAS（Central-Authentication-Service）"><a href="#CAS（Central-Authentication-Service）" class="headerlink" title="CAS（Central Authentication Service）"></a>CAS（Central Authentication Service）</h4><p><img src="https://user-gold-cdn.xitu.io/2017/11/7/0e2c2be35de3cf42744bae6f1238d6e7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
 <a id="more"></a>
-<p>集成了cas的应用系统B进行登录，跳转到cas的登录认证页面，A登录过程中已经在该域名下设置了cookie，即TGC，cas server验证TGC，TGC中有cas server缓存的TGT的id，TGC有效则无需登录验证，然后该TGT生成一个ST，浏览器重定向回调应用系统B，B收到ST之后再带着ST去请求cas server，cas server验证ST有效性并将ST和应用系统B的url信息存储在自己的services map中，然后返回应用系统B的用户信息。</p>
-<p>应用系统A退出，向cas server发送退出请求，请求中含有cookie，然后cas server通过cookie找到TGT，TGT遍历所有services map，然后向service中记录的系统A，系统B发送退出请求，同时销毁TGT，系统A，系统B收到退出请求销毁对应的ST的session。</p>
-<blockquote>
-<h3 id="CAS中的关键词理解"><a href="#CAS中的关键词理解" class="headerlink" title="CAS中的关键词理解"></a>CAS中的关键词理解</h3><ul>
+<ul>
+<li><p>cas中的关键词</p>
+<ul>
 <li>TGC（ Ticket Granting Cookie），CAS域名下的cookie，CAS SERVER通过该cookie的值TGC判断用户是否登录。CAS Server 生成TGT放入自己的 Session 中，而 TGC 就是这个 Session 的唯一标识（SessionId），以 Cookie 形式放到浏览器端。</li>
-<li>TGT（Ticket Granting Cookie），在CAS SERVER端判断用户登录的标识，TGT 封装了 Cookie 值以及此 Cookie 值对应的用户信息。当 HTTP 请求到来时，CAS 以此 Cookie 值（TGC）为 key 查询缓存中有无 TGT ，如果有的话，则相信用户已登录过。</li>
+<li>TGT（Ticket Granting Ticket），在CAS SERVER端判断用户登录的标识，TGT 封装了 Cookie 值以及此 Cookie 值对应的用户信息。当 HTTP 请求到来时，CAS 以此 Cookie 值（TGC）为 key 查询缓存中有无 TGT ，如果有的话，则相信用户已登录过。</li>
 <li>ST（Service Ticket ），ST 是 CAS 为用户签发的访问某一 service 的票据。用户访问 service 时，service 发现用户没有 ST，则要求用户去 CAS 获取 ST。用户向 CAS 发出获取 ST 的请求，CAS 发现用户有 TGT，则签发一个 ST，返回给用户。用户拿着 ST 去访问 service，service 拿 ST 去 CAS 验证，验证通过后，允许用户访问资源。</li>
 </ul>
-</blockquote>
+</li>
+<li><p>简而言之，CAS通过多个应用系统之间共享cas-server域名下的cookie实现单点登录。</p>
+</li>
+<li>集成了cas的应用系统A进行登录认证的时候先跳转到cas的登录认证页面，登录成功之后，cas server会生成一个TGT存入自己的缓存中，同时会在cas登录认证的域名下设置cookie，即TGC，TGC中包含TGT的id。</li>
+<li><p>TGT生成一个令牌ST，浏览器重定向带着ST回调系统A，应用系统A拿着ST再去向cas server请求，ST验证一次之后会失效，cas server验证ST的有效性并且将ST和应用系统A的url信息存入自己的services map中，然后返回登录的用户信息，应用系统A将y用户信息和ST存储到自己的session中。</p>
+</li>
+<li><p>集成了cas的应用系统B进行登录，跳转到cas的登录认证页面，A登录过程中已经在该域名下设置了cookie，即TGC，cas server验证TGC，TGC中有cas server缓存的TGT的id，TGC有效则无需登录验证，然后该TGT生成一个ST，浏览器重定向回调应用系统B，B收到ST之后再带着ST去请求cas server，cas server验证ST有效性并将ST和应用系统B的url信息存储在自己的services map中，然后返回应用系统B的用户信息。</p>
+</li>
+<li>应用系统A退出，向cas server发送退出请求，请求中含有cookie，然后cas server通过cookie找到TGT，TGT遍历所有services map，然后向service中记录的系统A，系统B发送退出请求，同时销毁TGT，系统A，系统B收到退出请求销毁对应的ST的session。</li>
+</ul>
 <blockquote>
 <p>node客户端<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>)</span><br><span class="line"><span class="keyword">var</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>)</span><br><span class="line"><span class="comment">//var ConnectCas = require('connect-cas2')</span></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> server_url = <span class="string">"http://10.70.7.222"</span>;</span><br><span class="line"><span class="comment">//sso认证成功之后cas server向应用服务器回调地址，get请求返回ST，该地址需在sso上注册</span></span><br><span class="line"><span class="keyword">const</span> callback_path = <span class="string">"/sso"</span>;</span><br><span class="line"><span class="comment">//应用服务器获取ST后向cas server发送get请求，返回用户信息</span></span><br><span class="line"><span class="keyword">const</span> serviceValidate_url = <span class="string">"http://sso.d.com/cas/p3/serviceValidate?service=http%3A%2F%2F10.70.7.222%2Fsso%2F"</span></span><br><span class="line"><span class="keyword">const</span> logout_url = <span class="string">"http://sso.d.com/cas/rbac/api/logout"</span>;</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">80</span>;</span><br><span class="line">app.use(session(&#123; <span class="attr">secret</span>: <span class="string">'portalMangeSecret'</span>, <span class="attr">cookie</span>: &#123; <span class="attr">maxAge</span>: <span class="number">3600000</span> ,<span class="attr">path</span>:<span class="string">'/'</span>&#125;&#125;))</span><br><span class="line">app.use(express.static(path.join(__dirname, <span class="string">'public'</span>)))</span><br><span class="line">app.get(<span class="string">"/username"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"json; charset=UTF-8;"</span>,<span class="string">"Access-Control-Allow-Origin"</span>:<span class="string">"*"</span>&#125;);</span><br><span class="line">    <span class="keyword">var</span> sess = req.session;</span><br><span class="line">    <span class="keyword">if</span>(sess.username)&#123;</span><br><span class="line">        res.end(<span class="string">'&#123;"username":"'</span> + sess.username + <span class="string">'"&#125;'</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.end(<span class="string">'&#123;"username":""&#125;'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">app.get(<span class="string">"/logout"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">  req.session.destroy();</span><br><span class="line">  <span class="keyword">var</span> url = logout_url;</span><br><span class="line">  res.redirect(<span class="number">302</span>, url);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//登录成功之后sso回调,返回ticket</span></span><br><span class="line">app.get(callback_path,<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> service_url = serviceValidate_url + <span class="string">"&amp;ticket="</span>+req.query.ticket;</span><br><span class="line">    <span class="keyword">var</span> _res = res;</span><br><span class="line">    <span class="keyword">var</span> _req = req;</span><br><span class="line">    <span class="comment">//请求sso 返回用户信息</span></span><br><span class="line">    http.get(service_url, (res) =&gt; &#123;</span><br><span class="line">        res.setEncoding(<span class="string">'utf8'</span>);</span><br><span class="line">        <span class="keyword">let</span> rawData = <span class="string">''</span>;</span><br><span class="line">        res.on(<span class="string">'data'</span>, (chunk) =&gt; rawData += chunk);</span><br><span class="line">        res.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">var</span> username = rawData.match(<span class="regexp">/&lt;cas:user&gt;[a-z]*/ig</span>)[<span class="number">0</span>].substring(<span class="number">10</span>);</span><br><span class="line">                <span class="keyword">var</span> sess = _req.session;</span><br><span class="line">                sess.username = username;</span><br><span class="line">                _res.redirect(<span class="number">302</span>, server_url + <span class="string">'/index.html'</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;).on(<span class="string">'error'</span>, (e) =&gt; &#123;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`App listening at port <span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -406,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/leetcode_347_topK/" rel="next" title="LeetCode :347. Top K Frequent Elements">
-                <i class="fa fa-chevron-left"></i> LeetCode :347. Top K Frequent Elements
+              <a href="/2018/01/18/nodejs/" rel="next" title="nodejs">
+                <i class="fa fa-chevron-left"></i> nodejs
               </a>
             
           </div>
@@ -502,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -557,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS单点登录"><span class="nav-number">1.</span> <span class="nav-text">CAS单点登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS原理"><span class="nav-number">1.1.</span> <span class="nav-text">CAS原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS中的关键词理解"><span class="nav-number">1.2.</span> <span class="nav-text">CAS中的关键词理解</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单点登录SSO（Single-Sign-On）"><span class="nav-number">1.</span> <span class="nav-text">单点登录SSO（Single Sign On）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS（Central-Authentication-Service）"><span class="nav-number">1.1.</span> <span class="nav-text">CAS（Central Authentication Service）</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -577,7 +584,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

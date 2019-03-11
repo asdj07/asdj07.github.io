@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="分支 查看分支  git branch 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分支 git branch -d &amp;lt;name&amp;gt; 将本地新建的分支提交到远程仓库">
+<meta name="description" content="分支 查看分支  git branch 查看远程分支  git branch -r 查看所有分支  git branch -a 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分">
 <meta name="keywords" content="todo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git命令">
 <meta property="og:url" content="http://yoursite.com/2018/12/13/git/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="分支 查看分支  git branch 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分支 git branch -d &amp;lt;name&amp;gt; 将本地新建的分支提交到远程仓库">
+<meta property="og:description" content="分支 查看分支  git branch 查看远程分支  git branch -r 查看所有分支  git branch -a 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-18T03:06:05.049Z">
+<meta property="og:updated_time" content="2019-01-03T06:22:01.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git命令">
-<meta name="twitter:description" content="分支 查看分支  git branch 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分支 git branch -d &amp;lt;name&amp;gt; 将本地新建的分支提交到远程仓库">
+<meta name="twitter:description" content="分支 查看分支  git branch 查看远程分支  git branch -r 查看所有分支  git branch -a 创建分支  git branch &amp;lt;name&amp;gt; 切换分支  git checkout &amp;lt;name&amp;gt; 创建+切换分支 git checkout -b &amp;lt;name&amp;gt; 合并某分支到当前分支 git merge &amp;lt;name&amp;gt; 删除分">
 
 
 
@@ -354,12 +354,24 @@
       
         <h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><ul>
 <li>查看分支  <code>git branch</code></li>
+<li>查看远程分支  <code>git branch -r</code></li>
+<li>查看所有分支  <code>git branch -a</code></li>
 <li>创建分支  <code>git branch &lt;name&gt;</code></li>
 <li>切换分支  <code>git checkout &lt;name&gt;</code></li>
 <li>创建+切换分支 <code>git checkout -b &lt;name&gt;</code></li>
 <li>合并某分支到当前分支 <code>git merge &lt;name&gt;</code></li>
 <li>删除分支 <code>git branch -d &lt;name&gt;</code></li>
 <li>将本地新建的分支提交到远程仓库 <code>git push origin new-branch</code></li>
+</ul>
+<h3 id="初始化并提交到远程仓库"><a href="#初始化并提交到远程仓库" class="headerlink" title="初始化并提交到远程仓库"></a>初始化并提交到远程仓库</h3><ul>
+<li>本地工程git初始化 <code>git init</code></li>
+<li>添加  <code>git add .</code></li>
+<li>提交到本地仓库 <code>git commit -m &quot;first commit&quot;</code></li>
+<li>设置远程仓库 <code>git remote add origin git@github.com:asdj07/xxx.git</code>  </li>
+<li>推送到远程仓库 <code>git push -u origin master</code></li>
+</ul>
+<h3 id="从远程仓库更新到本地-git-fetch"><a href="#从远程仓库更新到本地-git-fetch" class="headerlink" title="从远程仓库更新到本地 git fetch"></a>从远程仓库更新到本地 <code>git fetch</code></h3><ul>
+<li>默认取回所有分支的更新 <code>git fetch origin</code></li>
 </ul>
 
       
@@ -401,8 +413,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/18/ELK/" rel="prev" title="ELK">
-                ELK <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/13/linux_bash/" rel="prev" title="Linux命令">
+                Linux命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -487,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -542,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分支"><span class="nav-number">1.</span> <span class="nav-text">分支</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分支"><span class="nav-number">1.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化并提交到远程仓库"><span class="nav-number">2.</span> <span class="nav-text">初始化并提交到远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从远程仓库更新到本地-git-fetch"><span class="nav-number">3.</span> <span class="nav-text">从远程仓库更新到本地 git fetch</span></a></li></ol></div>
             
 
           </div>
@@ -562,7 +574,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

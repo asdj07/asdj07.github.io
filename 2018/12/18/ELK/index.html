@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html https://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输">
+<meta name="description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.htmlhttps://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输出">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ELK">
 <meta property="og:url" content="http://yoursite.com/2018/12/18/ELK/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html https://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输">
+<meta property="og:description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.htmlhttps://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输出">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-18T06:26:21.109Z">
+<meta property="og:updated_time" content="2019-01-16T02:17:23.566Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ELK">
-<meta name="twitter:description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html https://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输">
+<meta name="twitter:description" content="elastic文档:https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.htmlhttps://www.elastic.co/guide/cn/kibana/current/getting-started.html 安装LogstashLogstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输出">
 
 
 
@@ -351,7 +351,7 @@
       
 
       
-        <p>elastic文档:<br><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html</a><br> <a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/kibana/current/getting-started.html</a></p>
+        <p>elastic文档:<br><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/cn/index.html</a><br><a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/kibana/current/getting-started.html</a></p>
 <h3 id="安装Logstash"><a href="#安装Logstash" class="headerlink" title="安装Logstash"></a>安装Logstash</h3><p>Logstash 的作用是一个数据收集器，将各种格式各种渠道的数据通过它收集解析之后格式化输出到 Elasticsearch ，最后再由<br>Kibana 提供的比较友好的 Web 界面进行汇总、分析、搜索。<br>ELK 内部实际就是个管道结构，数据从 Logstash 到 Elasticsearch 再到 Kibana 做可视化展示。这三个组件各自也可以单独使用，比如 Logstash 不仅可以将数据输出到<br>Elasticsearch ，也可以到数据库、缓存等。</p>
 <a id="more"></a>
 <h3 id="安装Elasticsearch"><a href="#安装Elasticsearch" class="headerlink" title="安装Elasticsearch"></a>安装Elasticsearch</h3><ul>
@@ -365,9 +365,16 @@
 </li>
 <li><p>Elastic中的数据</p>
 <ul>
-<li>index，索引，相当于Mysql中的database概念，一个index就是一个数据库</li>
-<li>type，相当于Mysql中table的概念，一个type就是一个表，插入数据时自动创建</li>
-<li>document，相当于Mysql中的一条数据</li>
+<li>index，索引，相当于Mysql中的database概念，一个index就是一个数据库<ul>
+<li>查询所有索引 <code>curl -XGET http://localhost:9200/_cat/indices</code></li>
+<li>查询具体的索引 <code>curl -XGET http://localhost:9200/index-name?pretty</code></li>
+<li>删除索引 <code>curl -XDELETE http://localhost:9200/index-name</code></li>
+</ul>
+</li>
+<li><p>type，相当于Mysql中table的概念，一个type就是一个表，插入数据时自动创建</p>
+</li>
+<li><p>document，相当于Mysql中的一条数据</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -388,6 +395,9 @@
 <p><a href="https://qii404.me/2018/11/22/elastic-search.html" target="_blank" rel="noopener">https://qii404.me/2018/11/22/elastic-search.html</a><br><a href="http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html</a></p>
 <p>收集bash history<br><a href="http://blog.51cto.com/dl528888/1703059" target="_blank" rel="noopener">http://blog.51cto.com/dl528888/1703059</a></p>
 <p>rsyslog<br><a href="https://www.rsyslog.com/" target="_blank" rel="noopener">https://www.rsyslog.com/</a><br><a href="https://linux.cn/article-4835-1.html" target="_blank" rel="noopener">https://linux.cn/article-4835-1.html</a></p>
+<blockquote>
+<p>安装脚本<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">########### 安装java环境，1.8及以上   ###########</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">########### 安装Elasticsearch  ###########</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span></span><br><span class="line">ELASTIC_VERSION=6.5.0</span><br><span class="line">wget https://mirrors.d.com/software/elasticsearch/elasticsearch-<span class="variable">$ELASTIC_VERSION</span>.tar.gz</span><br><span class="line">tar zxf ./elasticsearch-<span class="variable">$ELASTIC_VERSION</span>.tar.gz</span><br><span class="line">rm -rf ./elasticsearch-<span class="variable">$ELASTIC_VERSION</span>.tar.gz</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/elasticsearch-<span class="variable">$ELASTIC_VERSION</span>  /usr/<span class="built_in">local</span>/elastic</span><br><span class="line"><span class="comment">### 允许外网访问</span></span><br><span class="line">sed -i <span class="string">'s/#network.host: 192.168.0.1/network.host: 0.0.0.0/'</span> ./elastic/config/elasticsearch.yml</span><br><span class="line">network.host: 0.0.0.0</span><br><span class="line"></span><br><span class="line"><span class="comment">### 新建用户，elastic不能以root用户运行</span></span><br><span class="line">adduser elastic-user</span><br><span class="line">passwd elastic-user   <span class="comment">#设置密码</span></span><br><span class="line">visudo  <span class="comment">#root用户执行，添加sudo权限</span></span><br><span class="line"><span class="comment">#elastic-user     ALL=(ALL)       ALL  #添加一行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># root用户执行，编辑 limits.conf 添加如下内容</span></span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 2048</span><br><span class="line">* hard nproc 4096</span><br><span class="line"></span><br><span class="line"><span class="comment"># elastic-user用户执行</span></span><br><span class="line">sudo sysctl -w vm.max_map_count=262144</span><br><span class="line"></span><br><span class="line"><span class="comment">#elastic用户 运行   -d 后台运行</span></span><br><span class="line">/usr/<span class="built_in">local</span>/elastic/bin/elasticsearch   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问http://ip:9200</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">########### 安装kibana   ###########</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span></span><br><span class="line">KIBANA_VERSION=6.5.0</span><br><span class="line">wget https://mirrors.d.com/software/elasticsearch/kibana-<span class="variable">$KIBANA_VERSION</span>-linux-x86_64.tar.gz</span><br><span class="line">tar zxf ./kibana-<span class="variable">$KIBANA_VERSION</span>-linux-x86_64.tar.gz</span><br><span class="line">rm -rf ./kibana-<span class="variable">$KIBANA_VERSION</span>-linux-x86_64.tar.gz</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/kibana-<span class="variable">$KIBANA_VERSION</span>-linux-x86_64.tar.gz  /usr/<span class="built_in">local</span>/kibana</span><br><span class="line"><span class="comment">### 允许外网访问</span></span><br><span class="line">sed -i <span class="string">'s/#server.host: "localhost"/server.host: "0.0.0.0"/'</span> ./config/kibana.yml</span><br><span class="line"><span class="comment">### 运行</span></span><br><span class="line">/usr/<span class="built_in">local</span>/kibana/bin/kibana</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问 http://ip:5601</span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment">########### 安装logstash   ###########</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span></span><br><span class="line">LOGSTASH_VERSION=6.5.1</span><br><span class="line">wget https://mirrors.d.com/software/elasticsearch/logstash-<span class="variable">$LOGSTASH_VERSION</span>.tar.gz</span><br><span class="line">tar zxf ./logstash-<span class="variable">$LOGSTASH_VERSION</span>.tar.gz</span><br><span class="line">rm -rf ./logstash-<span class="variable">$LOGSTASH_VERSION</span>.tar.gz</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/logstash-<span class="variable">$LOGSTASH_VERSION</span>  /usr/<span class="built_in">local</span>/logstash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行，配置文件 /usr/local/logstash/config/xxx.conf</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/logstash &amp;&amp; ./bin/logstash -f ./config/xxx.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###########  配置rsyslog客户端  ###########</span></span><br><span class="line">vim /etc/rsyslog.conf <span class="comment">#添加如下内容</span></span><br><span class="line"></span><br><span class="line">module(load=<span class="string">"imfile"</span> PollingInterval=<span class="string">"5"</span>)</span><br><span class="line">input(<span class="built_in">type</span>=<span class="string">"imfile"</span></span><br><span class="line">      File=<span class="string">"/var/log/my_bash_history.log"</span></span><br><span class="line">      StateFile=<span class="string">"teststatefile"</span></span><br><span class="line">      Tag=<span class="string">"bash_history"</span></span><br><span class="line">      Severity=<span class="string">"info"</span></span><br><span class="line">      Facility=<span class="string">"local7"</span></span><br><span class="line">      ruleset=<span class="string">"remote-server"</span></span><br><span class="line">)</span><br><span class="line">ruleset(name=<span class="string">"remote-server"</span>)&#123;</span><br><span class="line">      action(<span class="built_in">type</span>=<span class="string">"omfwd"</span> Target=<span class="string">"10.0.30.210"</span> Port=<span class="string">"514"</span> Protocol=<span class="string">"udp"</span> )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">########### 配置客户端收集bash_history命令 ###########</span></span><br><span class="line">vim /etc/bashrc <span class="comment">#添加如下内容</span></span><br><span class="line"></span><br><span class="line">HISTDIR=<span class="string">'/var/log/bash_history.log'</span></span><br><span class="line"><span class="keyword">if</span> [ ! -f <span class="variable">$HISTDIR</span> ];<span class="keyword">then</span></span><br><span class="line">touch <span class="variable">$HISTDIR</span></span><br><span class="line">chmod 666 <span class="variable">$HISTDIR</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">export</span> HISTTIMEFORMAT=<span class="string">"&#123;\"TIME\":\"%F %T\",\"HOSTNAME\":\"<span class="variable">$HOSTNAME</span>\",\"LI\":\"<span class="variable">$(who -u am i 2&gt;/dev/null| awk '&#123;print $NF&#125;'|sed -e 's/[()</span>]//g')\",\"LU\":\"<span class="variable">$(who am i|awk '&#123;print $1&#125;')</span>\",\"NU\":\"<span class="variable">$&#123;USER&#125;</span>\",\"CMD\":\""</span></span><br><span class="line"><span class="built_in">export</span> PROMPT_COMMAND=<span class="string">'history 1|tail -1|sed "s/^[ ]\+[0-9]\+  //"|sed "s/$/\"&#125;/"&gt;&gt; /var/log/bash_history.log'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/bashrc  <span class="comment">#执行</span></span><br><span class="line"></span><br><span class="line">service rsyslog restart <span class="comment">#重启rsyslog服务</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
 
       
     </div>
@@ -412,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/13/git/" rel="next" title="git命令">
-                <i class="fa fa-chevron-left"></i> git命令
+              <a href="/2018/12/13/linux_bash/" rel="next" title="Linux命令">
+                <i class="fa fa-chevron-left"></i> Linux命令
               </a>
             
           </div>
@@ -421,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/11/https/" rel="prev" title="https">
+                https <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -504,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -579,7 +593,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
