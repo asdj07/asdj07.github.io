@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="todo,">
+  <meta name="keywords" content="nginx,">
 
 
 
@@ -79,20 +79,21 @@
 
 
 
-<meta name="description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
-<meta name="keywords" content="todo">
+<meta name="description" content="Nginx与Tomcat比较 tomcat是根据Servlet和JSP规范执行的。tomcat对静态文件、高并发文件的处理比较弱。 nginx配置文件简单；能根据域名、URL的不同将HTTP请求分发到不同的后端服务器集群；负载均衡；反向代理；内置健康检查；节省带宽。支持GZIP压缩；支持热部署。     nginx热部署的实现 Nginx涉及Master进程和Worker进程；master读取并">
+<meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java jvm">
-<meta property="og:url" content="http://yoursite.com/2018/12/12/java_jvm/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/06/19/nginx/index.html">
 <meta property="og:site_name" content="asD">
-<meta property="og:description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
+<meta property="og:description" content="Nginx与Tomcat比较 tomcat是根据Servlet和JSP规范执行的。tomcat对静态文件、高并发文件的处理比较弱。 nginx配置文件简单；能根据域名、URL的不同将HTTP请求分发到不同的后端服务器集群；负载均衡；反向代理；内置健康检查；节省带宽。支持GZIP压缩；支持热部署。     nginx热部署的实现 Nginx涉及Master进程和Worker进程；master读取并">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://s1.51cto.com/oss/201811/01/e84b1808880936fa586a9afdcad42a41.jpeg">
-<meta property="og:updated_time" content="2019-03-01T01:08:26.563Z">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c892b0f2d982.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/14/5c89c90097fa4.png">
+<meta property="og:updated_time" content="2019-03-21T08:50:44.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java jvm">
-<meta name="twitter:description" content="Java运行时数据区程序计数器（PC） 线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址 每个线程都有自己的PC，记录了当前线程要执行的指令。    虚拟机栈（VM Stack） 线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息， 每个方法被调用和完成的过程，都对应一个栈帧从虚">
-<meta name="twitter:image" content="http://s1.51cto.com/oss/201811/01/e84b1808880936fa586a9afdcad42a41.jpeg">
+<meta name="twitter:description" content="Nginx与Tomcat比较 tomcat是根据Servlet和JSP规范执行的。tomcat对静态文件、高并发文件的处理比较弱。 nginx配置文件简单；能根据域名、URL的不同将HTTP请求分发到不同的后端服务器集群；负载均衡；反向代理；内置健康检查；节省带宽。支持GZIP压缩；支持热部署。     nginx热部署的实现 Nginx涉及Master进程和Worker进程；master读取并">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/14/5c892b0f2d982.png">
 
 
 
@@ -122,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/12/java_jvm/">
+  <link rel="canonical" href="http://yoursite.com/2018/06/19/nginx/">
 
 
 
@@ -265,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/java_jvm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/19/nginx/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Johnny">
@@ -294,8 +295,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-12T09:32:13+08:00">
-                2018-12-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-19T17:32:13+08:00">
+                2018-06-19
               </time>
             
 
@@ -317,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/容器/" itemprop="url" rel="index">
+                    <span itemprop="name">容器</span>
                   </a>
                 </span>
 
@@ -354,65 +355,50 @@
       
 
       
-        <h2 id="Java运行时数据区"><a href="#Java运行时数据区" class="headerlink" title="Java运行时数据区"></a>Java运行时数据区</h2><h4 id="程序计数器（PC）"><a href="#程序计数器（PC）" class="headerlink" title="程序计数器（PC）"></a>程序计数器（PC）</h4><ul>
-<li>线程私有，是一块很小的内存区域，存储了下一条需要执行的（JVM汇编）字节码的指令地址</li>
-<li>每个线程都有自己的PC，记录了当前线程要执行的指令。  </li>
+        <blockquote>
+<h3 id="Nginx与Tomcat比较"><a href="#Nginx与Tomcat比较" class="headerlink" title="Nginx与Tomcat比较"></a><code>Nginx</code>与<code>Tomcat</code>比较</h3><ul>
+<li><code>tomcat</code>是根据<code>Servlet</code>和<code>JSP</code>规范执行的。<code>tomcat</code>对静态文件、高并发文件的处理比较弱。</li>
+<li><code>nginx</code>配置文件简单；能根据域名、URL的不同将<code>HTTP</code>请求分发到不同的后端服务器集群；负载均衡；反向代理；内置健康检查；节省带宽。支持<code>GZIP</code>压缩；支持热部署。</li>
 </ul>
-<h4 id="虚拟机栈（VM-Stack）"><a href="#虚拟机栈（VM-Stack）" class="headerlink" title="虚拟机栈（VM Stack）"></a>虚拟机栈（VM Stack）</h4><ul>
-<li>线程私有，此栈中的元素叫做栈帧，线程在调用java方法时会为每一个元素创建一个栈帧，来存储局部变量表，操作表，动态链接，方法出口等信息，</li>
-<li>每个方法被调用和完成的过程，都对应一个栈帧从虚拟机栈上的入栈和出栈的过程。虚拟机栈的生命周期和虚拟机相同。</li>
-<li>后入先出栈，线程调用对象方法时，JVM会创建一个栈帧放到虚拟机栈中，用来表示某个方法的调用，调用过程就是方法的入栈和出栈过程。</li>
-<li>栈帧中包含的内容：<ul>
-<li>局部变量表</li>
-<li>操作数栈</li>
-<li>动态链接</li>
-<li>方法出口</li>
-</ul>
-</li>
-</ul>
-<h4 id="本地方法栈（Native-Method-Stack）"><a href="#本地方法栈（Native-Method-Stack）" class="headerlink" title="本地方法栈（Native Method Stack）"></a>本地方法栈（Native Method Stack）</h4><ul>
-<li>线程私有，功能和虚拟机栈相似</li>
-<li>存储线程调用本地方法时，本地放法的局部变量表，操作栈等。</li>
-</ul>
-<h4 id="堆-（Heap）"><a href="#堆-（Heap）" class="headerlink" title="堆 （Heap）"></a>堆 （Heap）</h4><ul>
-<li>Heap区被所有的线程共享，在虚拟机启动时创建</li>
-<li>存放对象实例，Heap区是垃圾回收管理的主要区域</li>
-</ul>
-<h4 id="方法区（Method-area）"><a href="#方法区（Method-area）" class="headerlink" title="方法区（Method area）"></a>方法区（Method area）</h4><ul>
-<li>被所有线程共享，用于存储已经被虚拟机加载的类信息，常亮，静态变量，即时编译器编译出来的代码等数据。<ul>
-<li>运行时常量池</li>
-<li>类型信息</li>
-<li>字段信息</li>
-<li>方法信息</li>
-<li>类信息</li>
-<li>指向类加载和class实例的引用</li>
-<li>方法表</li>
-</ul>
-</li>
-</ul>
-<h2 id="JVM监控"><a href="#JVM监控" class="headerlink" title="JVM监控"></a>JVM监控</h2><ul>
-<li>jps 功能类似ps，列出正在运行的虚拟机进程</li>
-<li>jstat，显示本地或远程中的类装载，内存，垃圾收集，JIT编译等运行数据。</li>
-<li>jinfo</li>
-<li>jstack</li>
-<li>JConsole 可视化工具</li>
-<li>Java VisualVM</li>
-</ul>
-<h2 id="JVM参数"><a href="#JVM参数" class="headerlink" title="JVM参数"></a>JVM参数</h2><p><img src="http://s1.51cto.com/oss/201811/01/e84b1808880936fa586a9afdcad42a41.jpeg" alt=""></p>
-<ul>
-<li><code>-Xms</code> 初始堆大小</li>
-<li><code>-Xmx</code> 最大堆大小</li>
-<li><code>-Xmn</code> 设置年轻代大小</li>
-<li><code>-XX:NewSize</code>  设置新生代最小空间大小</li>
-<li><code>-XX:MaxNewSize</code> 设置新生代最大空间大小</li>
-<li><code>-Xss</code> 设置每个线程的堆栈大小</li>
-</ul>
-<hr>
-<blockquote>
-<p>推荐阅读  </p>
 </blockquote>
-<p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/%E5%8F%AF%E8%83%BD%E6%98%AF%E6%8A%8AJava%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AE%B2%E7%9A%84%E6%9C%80%E6%B8%85%E6%A5%9A%E7%9A%84%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/%E5%8F%AF%E8%83%BD%E6%98%AF%E6%8A%8AJava%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AE%B2%E7%9A%84%E6%9C%80%E6%B8%85%E6%A5%9A%E7%9A%84%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0.md</a> </p>
-<p>Java运行时数据区:<br><a href="https://blog.csdn.net/luanlouis/article/details/40043991" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/40043991</a><br>Java类加载:<br><a href="https://blog.csdn.net/luanlouis/article/details/50529868" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/50529868</a></p>
+<p><br></p>
+<blockquote>
+<h3 id="nginx热部署的实现"><a href="#nginx热部署的实现" class="headerlink" title="nginx热部署的实现"></a><code>nginx</code>热部署的实现</h3><ul>
+<li>Nginx涉及Master进程和Worker进程；master读取并验证配置文件nginx.conf；管理worker进程；每一个Worker进程都维护一个线程（避免线程切换），处理连接和请求。<br><img src="https://i.loli.net/2019/03/14/5c892b0f2d982.png" alt=""></li>
+<li>修改配置文件nginx.conf后，重新生成新的worker进程，当然会以新的配置进行处理请求，而且新的请求必须都交给新的worker进程，至于老的worker进程，等把那些以前的请求处理完毕后，kill掉即可。</li>
+</ul>
+</blockquote>
+<p><br></p>
+<blockquote>
+<h3 id="Nginx如何做到高并发"><a href="#Nginx如何做到高并发" class="headerlink" title="Nginx如何做到高并发"></a><code>Nginx</code>如何做到高并发</h3><ul>
+<li><code>Nginx</code>采用了<code>Linux</code>的<code>epoll</code>模型，<code>epoll</code>模型基于事件驱动机制，它可以监控多个事件是否准备完毕，如果OK，那么放入<code>epoll</code>队列中，这个过程是异步的。<code>worker</code>只需要从epoll队列循环处理即可。</li>
+</ul>
+</blockquote>
+<p><br></p>
+<blockquote>
+<h3 id="高可用、负载均衡"><a href="#高可用、负载均衡" class="headerlink" title="高可用、负载均衡"></a>高可用、负载均衡</h3></blockquote>
+<ul>
+<li><code>Keep-Alive</code><br><img src="https://i.loli.net/2019/03/14/5c89c90097fa4.png" alt=""></li>
+<li><code>HAProxy</code></li>
+<li><code>LVS + Keep-Alive</code><ul>
+<li><code>Linux Virtual Server</code></li>
+</ul>
+</li>
+<li><code>F5</code></li>
+</ul>
+<p><br></p>
+<blockquote>
+<h3 id="nginx的负载均衡策略"><a href="#nginx的负载均衡策略" class="headerlink" title="nginx的负载均衡策略"></a><code>nginx</code>的负载均衡策略</h3><ul>
+<li>1、轮询（默认）</li>
+<li>2、指定权重轮询</li>
+<li>3、<code>ip_hash</code>(ip绑定)，每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</li>
+<li>4、<code>url_hash</code>（第三方），按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。 </li>
+<li>5、<code>fair</code>（第三方），按后端服务器的响应时间来分配请求，响应时间短的优先分配。</li>
+</ul>
+</blockquote>
+<p><br></p>
+<hr>
+<p>参考<br><a href="https://zhuanlan.zhihu.com/p/34943332" target="_blank" rel="noopener">深入浅出搞懂Nginx</a><br><a href="https://juejin.im/post/5b645b6ff265da0f955ceddf" target="_blank" rel="noopener">Nginx&amp;Keepalived 实现高可用</a></p>
 
       
     </div>
@@ -430,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/todo/" rel="tag"># todo</a>
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
           
         </div>
       
@@ -443,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/12/linux_win_file/" rel="next" title="linux与windows之间网络共享">
-                <i class="fa fa-chevron-left"></i> linux与windows之间网络共享
+              <a href="/2018/01/23/postgres/" rel="next" title="postgres备份">
+                <i class="fa fa-chevron-left"></i> postgres备份
               </a>
             
           </div>
@@ -453,8 +439,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/12/spring_redis_cache_table/" rel="prev" title="Spring redis cache">
-                Spring redis cache <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/18/Kubernetes/" rel="prev" title="Kubernetes">
+                Kubernetes <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -594,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java运行时数据区"><span class="nav-number">1.</span> <span class="nav-text">Java运行时数据区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#程序计数器（PC）"><span class="nav-number">1.0.1.</span> <span class="nav-text">程序计数器（PC）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机栈（VM-Stack）"><span class="nav-number">1.0.2.</span> <span class="nav-text">虚拟机栈（VM Stack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地方法栈（Native-Method-Stack）"><span class="nav-number">1.0.3.</span> <span class="nav-text">本地方法栈（Native Method Stack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆-（Heap）"><span class="nav-number">1.0.4.</span> <span class="nav-text">堆 （Heap）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区（Method-area）"><span class="nav-number">1.0.5.</span> <span class="nav-text">方法区（Method area）</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM监控"><span class="nav-number">2.</span> <span class="nav-text">JVM监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM参数"><span class="nav-number">3.</span> <span class="nav-text">JVM参数</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx与Tomcat比较"><span class="nav-number">1.</span> <span class="nav-text">Nginx与Tomcat比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx热部署的实现"><span class="nav-number">2.</span> <span class="nav-text">nginx热部署的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx如何做到高并发"><span class="nav-number">3.</span> <span class="nav-text">Nginx如何做到高并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高可用、负载均衡"><span class="nav-number">4.</span> <span class="nav-text">高可用、负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx的负载均衡策略"><span class="nav-number">5.</span> <span class="nav-text">nginx的负载均衡策略</span></a></li></ol></div>
             
 
           </div>
