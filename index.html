@@ -1084,29 +1084,21 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><ul>
 <li>采用 <strong><code>HashMap</code></strong> 和 <strong>双向链表</strong>的数据结构</li>
 <li>双向链表中的<code>Node</code>保存了缓存的<code>key</code>和<code>value</code></li>
 <li><code>HashMap&lt;key, Node&gt;</code>，即<code>value</code>为双向链表中的节点</li>
 <li>每访问一个元素将双向链表中的该元素先删除，再添加到头结点，即将最新访问的节点移到头</li>
-<li>当缓存满，删除链表尾的节点，同时删除map中的key，再将新元素添加到链表头，添加到map</li>
-<li>用双向链表是为了记录尾节点，当缓存满时删除尾节点</li>
-<li>第一开始想法是用单向链表，再额外记录一下头尾节点，但这样是不行的，单向链表可以记录头结点，没有办法记录尾节点，当一个尾节点被删除后，只能从头遍历到尾才能继续记录尾节点。</li>
 </ul>
 </blockquote>
-<p><br><br><br></p>
-<blockquote>
-<h3 id="如何实现一个高并发下的线程安全的-LRU缓存-？"><a href="#如何实现一个高并发下的线程安全的-LRU缓存-？" class="headerlink" title="如何实现一个高并发下的线程安全的 LRU缓存 ？"></a>如何实现一个高并发下的线程安全的 LRU缓存 ？</h3></blockquote>
-<p><br><br><br></p>
-<p><img src="https://i.loli.net/2019/03/21/5c92fabc4ff26.png" alt=""></p>
-<p><br></p>
-<p><img src="https://i.loli.net/2019/03/21/5c92faef48410.png" alt=""></p>
-<hr>
-<p>参考：<br><a href="https://zhuanlan.zhihu.com/p/34133067" target="_blank" rel="noopener">LRU原理和Redis实现</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/07/lru/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1394,53 +1386,19 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <h3 id="Nginx与Tomcat比较"><a href="#Nginx与Tomcat比较" class="headerlink" title="Nginx与Tomcat比较"></a><code>Nginx</code>与<code>Tomcat</code>比较</h3><ul>
 <li><code>tomcat</code>是根据<code>Servlet</code>和<code>JSP</code>规范执行的。<code>tomcat</code>对静态文件、高并发文件的处理比较弱。</li>
 <li><code>nginx</code>配置文件简单；能根据域名、URL的不同将<code>HTTP</code>请求分发到不同的后端服务器集群；负载均衡；反向代理；内置健康检查；节省带宽。支持<code>GZIP</code>压缩；支持热部署。</li>
 </ul>
 </blockquote>
-<p><br></p>
-<blockquote>
-<h3 id="nginx热部署的实现"><a href="#nginx热部署的实现" class="headerlink" title="nginx热部署的实现"></a><code>nginx</code>热部署的实现</h3><ul>
-<li>Nginx涉及Master进程和Worker进程；master读取并验证配置文件nginx.conf；管理worker进程；每一个Worker进程都维护一个线程（避免线程切换），处理连接和请求。<br><img src="https://i.loli.net/2019/03/14/5c892b0f2d982.png" alt=""></li>
-<li>修改配置文件nginx.conf后，重新生成新的worker进程，当然会以新的配置进行处理请求，而且新的请求必须都交给新的worker进程，至于老的worker进程，等把那些以前的请求处理完毕后，kill掉即可。</li>
-</ul>
-</blockquote>
-<p><br></p>
-<blockquote>
-<h3 id="Nginx如何做到高并发"><a href="#Nginx如何做到高并发" class="headerlink" title="Nginx如何做到高并发"></a><code>Nginx</code>如何做到高并发</h3><ul>
-<li><code>Nginx</code>采用了<code>Linux</code>的<code>epoll</code>模型，<code>epoll</code>模型基于事件驱动机制，它可以监控多个事件是否准备完毕，如果OK，那么放入<code>epoll</code>队列中，这个过程是异步的。<code>worker</code>只需要从epoll队列循环处理即可。</li>
-</ul>
-</blockquote>
-<p><br></p>
-<blockquote>
-<h3 id="高可用、负载均衡"><a href="#高可用、负载均衡" class="headerlink" title="高可用、负载均衡"></a>高可用、负载均衡</h3></blockquote>
-<ul>
-<li><code>Keep-Alive</code><br><img src="https://i.loli.net/2019/03/14/5c89c90097fa4.png" alt=""></li>
-<li><code>HAProxy</code></li>
-<li><code>LVS + Keep-Alive</code><ul>
-<li><code>Linux Virtual Server</code></li>
-</ul>
-</li>
-<li><code>F5</code></li>
-</ul>
-<p><br></p>
-<blockquote>
-<h3 id="nginx的负载均衡策略"><a href="#nginx的负载均衡策略" class="headerlink" title="nginx的负载均衡策略"></a><code>nginx</code>的负载均衡策略</h3><ul>
-<li>1、轮询（默认）</li>
-<li>2、指定权重轮询</li>
-<li>3、<code>ip_hash</code>(ip绑定)，每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。</li>
-<li>4、<code>url_hash</code>（第三方），按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，后端服务器为缓存时比较有效。 </li>
-<li>5、<code>fair</code>（第三方），按后端服务器的响应时间来分配请求，响应时间短的优先分配。</li>
-</ul>
-</blockquote>
-<p><br></p>
-<hr>
-<p>参考<br><a href="https://zhuanlan.zhihu.com/p/34943332" target="_blank" rel="noopener">深入浅出搞懂Nginx</a><br><a href="https://juejin.im/post/5b645b6ff265da0f955ceddf" target="_blank" rel="noopener">Nginx&amp;Keepalived 实现高可用</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/19/nginx/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
